@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>OrangeBits</id>
+    <version>$version$</version>
+    <title>OrangeBits Compiler</title>
+    <authors>Justin Beckwith</authors>
+    <owners>Justin Beckwith</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>The OrangeBits compiler is an automatic CoffeeScript, LESS, and SaSS compiler.</description>
+    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+    <copyright>Copyright 2012</copyright>
+    <tags>LESS, SaSS, CoffeeScript, Compiler</tags>
+  </metadata>
+</package>
