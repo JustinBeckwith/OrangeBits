@@ -563,6 +563,71 @@
             Show white spaces key.
             </summary>
         </member>
+        <member name="F:Microsoft.WebMatrix.Extensibility.Editor.SettingChangedEventArgs.InsertBracesKey">
+            <summary>
+            Insert braces key.
+            </summary>
+        </member>
+        <member name="F:Microsoft.WebMatrix.Extensibility.Editor.SettingChangedEventArgs.InsertClosingTagsKey">
+            <summary>
+            Insert closing tags key.
+            </summary>
+        </member>
+        <member name="F:Microsoft.WebMatrix.Extensibility.Editor.SettingChangedEventArgs.AutoFormatCodeKey">
+            <summary>
+            Auto-format code key.
+            </summary>
+        </member>
+        <member name="F:Microsoft.WebMatrix.Extensibility.Editor.SettingChangedEventArgs.BracePositionOnNewLineJScriptKey">
+            <summary>
+            Brace position key in JScript.
+            </summary>
+        </member>
+        <member name="F:Microsoft.WebMatrix.Extensibility.Editor.SettingChangedEventArgs.BracePositionOnNewLineCssKey">
+            <summary>
+            Brace position key in CSS.
+            </summary>
+        </member>
+        <member name="F:Microsoft.WebMatrix.Extensibility.Editor.SettingChangedEventArgs.BracePositionOnNewLinePhpKey">
+            <summary>
+            Brace position key in PHP.
+            </summary>
+        </member>
+        <member name="F:Microsoft.WebMatrix.Extensibility.Editor.SettingChangedEventArgs.BracePositionOnNewLineCSharpKey">
+            <summary>
+            Brace position key in C#.
+            </summary>
+        </member>
+        <member name="F:Microsoft.WebMatrix.Extensibility.Editor.SettingChangedEventArgs.HtmlAttributesOnSeparateLinesKey">
+            <summary>
+            Place HTML element attributes on separate lines key.
+            </summary>
+        </member>
+        <member name="F:Microsoft.WebMatrix.Extensibility.Editor.SettingChangedEventArgs.ValidationEnabledKey">
+            <summary>
+            Enable validation (syntax check) key
+            </summary>
+        </member>
+        <member name="F:Microsoft.WebMatrix.Extensibility.Editor.SettingChangedEventArgs.AddQuotesToHtmlAttributesKey">
+            <summary>
+            Add quotes to HTML attribute values in HTML formatting
+            </summary>
+        </member>
+        <member name="F:Microsoft.WebMatrix.Extensibility.Editor.SettingChangedEventArgs.HighlightWordsKey">
+            <summary>
+            Highlight words key.
+            </summary>
+        </member>
+        <member name="F:Microsoft.WebMatrix.Extensibility.Editor.SettingChangedEventArgs.SearchAsYouTypeKey">
+            <summary>
+            Search as you type key.
+            </summary>
+        </member>
+        <member name="F:Microsoft.WebMatrix.Extensibility.Editor.SettingChangedEventArgs.JQueryMobileHtmlIntellisenseKey">
+            <summary>
+            Key to enable jQuery Mobile intellisense in HTML files.
+            </summary>
+        </member>
         <member name="F:Microsoft.WebMatrix.Extensibility.Editor.SettingChangedEventArgs.ThemeFileLocationKey">
             <summary>
             Theme file location key.
@@ -583,6 +648,11 @@
             Surface background brush key.
             </summary>
         </member>
+        <member name="F:Microsoft.WebMatrix.Extensibility.Editor.SettingChangedEventArgs.SupplementalHtmlIntellisenseOptionsKey">
+            <summary>
+            Key to a set of supplemental HTML options.
+            </summary>
+        </member>
         <member name="M:Microsoft.WebMatrix.Extensibility.Editor.SettingChangedEventArgs.#ctor(System.String)">
             <summary>
             Initializes a new instance of the SettingChangedEventArgs class.
@@ -597,6 +667,21 @@
         <member name="T:Microsoft.WebMatrix.Extensibility.Editor.IEditorSettings">
             <summary>
             Interface that represents editor settings.
+            </summary>
+        </member>
+        <member name="M:Microsoft.WebMatrix.Extensibility.Editor.IEditorSettings.GetCustomOption(System.String)">
+            <summary>
+            Get custom option.
+            </summary>
+        </member>
+        <member name="M:Microsoft.WebMatrix.Extensibility.Editor.IEditorSettings.SetCustomOption(System.String,System.String)">
+            <summary>
+            Set custom option.
+            </summary>
+        </member>
+        <member name="M:Microsoft.WebMatrix.Extensibility.Editor.IEditorSettings.GetCustomOptions">
+            <summary>
+            Get all custom options.
             </summary>
         </member>
         <member name="P:Microsoft.WebMatrix.Extensibility.Editor.IEditorSettings.FontSizeInPoints">
@@ -639,6 +724,66 @@
             Gets or sets the surface background brush.
             </summary>
         </member>
+        <member name="P:Microsoft.WebMatrix.Extensibility.Editor.IEditorSettings.InsertBraces">
+            <summary>
+            Insert matching braces and quotes
+            </summary>
+        </member>
+        <member name="P:Microsoft.WebMatrix.Extensibility.Editor.IEditorSettings.InsertClosingTags">
+            <summary>
+            Insert closing tags in HTML and XML.
+            </summary>
+        </member>
+        <member name="P:Microsoft.WebMatrix.Extensibility.Editor.IEditorSettings.AutoFormatCode">
+            <summary>
+            Auto-format code as you type.
+            </summary>
+        </member>
+        <member name="P:Microsoft.WebMatrix.Extensibility.Editor.IEditorSettings.BracePositionOnNewLineJScript">
+            <summary>
+            Brace position in JScript.
+            </summary>
+        </member>
+        <member name="P:Microsoft.WebMatrix.Extensibility.Editor.IEditorSettings.BracePositionOnNewLineCss">
+            <summary>
+            Brace position in CSS.
+            </summary>
+        </member>
+        <member name="P:Microsoft.WebMatrix.Extensibility.Editor.IEditorSettings.BracePositionOnNewLinePhp">
+            <summary>
+            Brace position in PHP.
+            </summary>
+        </member>
+        <member name="P:Microsoft.WebMatrix.Extensibility.Editor.IEditorSettings.BracePositionOnNewLineCSharp">
+            <summary>
+            Brace position in C#.
+            </summary>
+        </member>
+        <member name="P:Microsoft.WebMatrix.Extensibility.Editor.IEditorSettings.HtmlAttributesOnSeparateLines">
+            <summary>
+            Place HTML element attributes on separate lines.
+            </summary>
+        </member>
+        <member name="P:Microsoft.WebMatrix.Extensibility.Editor.IEditorSettings.ValidationEnabled">
+            <summary>
+            Enable validation (syntax check)
+            </summary>
+        </member>
+        <member name="P:Microsoft.WebMatrix.Extensibility.Editor.IEditorSettings.AddQuotesToHtmlAttributes">
+            <summary>
+            Add quotes to HTML attribute values in HTML formatting.
+            </summary>
+        </member>
+        <member name="P:Microsoft.WebMatrix.Extensibility.Editor.IEditorSettings.HighlightWords">
+            <summary>
+            Highlight words.
+            </summary>
+        </member>
+        <member name="P:Microsoft.WebMatrix.Extensibility.Editor.IEditorSettings.SearchAsYouType">
+            <summary>
+            Search as you type.
+            </summary>
+        </member>
         <member name="T:Microsoft.WebMatrix.Extensibility.Editor.IEditorSettingsProvider">
             <summary>
             Interface that represents an editor settings provider.
@@ -656,42 +801,14 @@
         </member>
         <member name="T:Microsoft.WebMatrix.Extensibility.ExtensionBase">
             <summary>
-            IExtension implementation that provides a convenient starting-point for creating a WebMatrix extension.
+            an implementation that provides a convenient starting-point for creating a WebMatrix extension.
             </summary>
         </member>
-        <member name="T:Microsoft.WebMatrix.Extensibility.IExtension">
-            <summary>
-            Interface that all WebMatrix extensions are required to implement.
-            </summary>
-        </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IExtension.Name">
-            <summary>
-            Gets the user-friendly name of the extension.
-            </summary>
-            <example>MyExtension</example>
-        </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IExtension.Version">
-            <summary>
-            Gets the user-friendly version of the extension.
-            </summary>
-            <example>1.0</example>
-        </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IExtension.RibbonItems">
-            <summary>
-            Gets a sequence of Ribbon items that are always available.
-            </summary>
-        </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IExtension.DashboardItems">
-            <summary>
-            Gets a sequence of Dashboard items.
-            </summary>
-        </member>
-        <member name="M:Microsoft.WebMatrix.Extensibility.ExtensionBase.#ctor(System.String,System.String)">
+        <member name="M:Microsoft.WebMatrix.Extensibility.ExtensionBase.#ctor(System.String)">
             <summary>
             Initializes a new instance of the ExtensionBase class.
             </summary>
             <param name="name">User-friendly extension name.</param>
-            <param name="version">User-friendly extension version.</param>
         </member>
         <member name="F:Microsoft.WebMatrix.Extensibility.ExtensionBase._webMatrixHost">
             <summary>
@@ -1123,12 +1240,7 @@
             Interface for representing a contextual tab on the Ribbon.
             </summary>
         </member>
-        <member name="T:Microsoft.WebMatrix.Extensibility.IRibbonItem">
-            <summary>
-            Interface for representing an item on the Ribbon.
-            </summary>
-        </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IRibbonItem.Label">
+        <member name="P:Microsoft.WebMatrix.Extensibility.IRibbonContextualTab.Label">
             <summary>
             Gets a label for the item.
             </summary>
@@ -1176,6 +1288,16 @@
         <member name="T:Microsoft.WebMatrix.Extensibility.IRibbonGroup">
             <summary>
             Interface for representing a group on the Ribbon.
+            </summary>
+        </member>
+        <member name="T:Microsoft.WebMatrix.Extensibility.IRibbonItem">
+            <summary>
+            Interface for representing an item on the Ribbon.
+            </summary>
+        </member>
+        <member name="P:Microsoft.WebMatrix.Extensibility.IRibbonItem.Label">
+            <summary>
+            Gets a label for the item.
             </summary>
         </member>
         <member name="P:Microsoft.WebMatrix.Extensibility.IRibbonGroup.Items">
@@ -2151,6 +2273,18 @@
             Adds a sequence of Ribbon items to the Ribbon.
             </summary>
             <param name="ribbonItems">Sequence of IRibbonItems.</param>
+        </member>
+        <member name="M:Microsoft.WebMatrix.Extensibility.IWebMatrixHost.AddContextualRibbonTabs(Microsoft.WebMatrix.Extensibility.IRibbonContextualTab[])">
+            <summary>
+            Adds a sequence of Ribbon items to the Ribbon.
+            </summary>
+            <param name="ribbonTabs">contextual tabs</param>
+        </member>
+        <member name="M:Microsoft.WebMatrix.Extensibility.IWebMatrixHost.RemoveContextualRibbonTabs(Microsoft.WebMatrix.Extensibility.IRibbonContextualTab[])">
+            <summary>
+            Removes a sequence of Ribbon contextual tabs to the Ribbon.
+            </summary>
+            <param name="ribbonTabs">the tabs to remove</param>
         </member>
         <member name="M:Microsoft.WebMatrix.Extensibility.IWebMatrixHost.AddDashboardItems(System.Collections.Generic.IEnumerable{Microsoft.WebMatrix.Extensibility.IDashboardItem})">
             <summary>

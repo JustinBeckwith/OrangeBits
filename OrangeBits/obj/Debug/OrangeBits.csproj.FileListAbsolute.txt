@@ -17,7 +17,6 @@ C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\OrangeBits.pdb
 C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\dotless.Core.dll
 C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\Microsoft.WebMatrix.Extensibility.dll
 C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\Microsoft.WebMatrix.Extensibility.xml
-C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\obj\Debug\OrangeBits.dll
 C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\obj\Debug\OrangeBits.pdb
 C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\IronRuby.dll
@@ -47,3 +46,4 @@ C:\Users\justbe.REDMOND.000\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\SassAnd
 C:\Users\justbe.REDMOND.000\Dropbox\Code\OrangeBits\OrangeBits\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\justbe.REDMOND.000\Dropbox\Code\OrangeBits\OrangeBits\obj\Debug\OrangeBits.dll
 C:\Users\justbe.REDMOND.000\Dropbox\Code\OrangeBits\OrangeBits\obj\Debug\OrangeBits.pdb
+C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\obj\Debug\OrangeBits.csprojResolveAssemblyReference.cache

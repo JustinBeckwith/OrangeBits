@@ -15,7 +15,6 @@ C:\Users\justbe\Dropbox\Code\OrangeBits\UnitTests\bin\Debug\Microsoft.WebMatrix.
 C:\Users\justbe\Dropbox\Code\OrangeBits\UnitTests\bin\Debug\dotless.Core.dll
 C:\Users\justbe\Dropbox\Code\OrangeBits\UnitTests\bin\Debug\OrangeBits.pdb
 C:\Users\justbe\Dropbox\Code\OrangeBits\UnitTests\bin\Debug\Microsoft.WebMatrix.Extensibility.xml
-C:\Users\justbe\Dropbox\Code\OrangeBits\UnitTests\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\justbe\Dropbox\Code\OrangeBits\UnitTests\obj\Debug\UnitTests.dll
 C:\Users\justbe\Dropbox\Code\OrangeBits\UnitTests\obj\Debug\UnitTests.pdb
 C:\Users\justbe\Dropbox\Code\OrangeBits\UnitTests\bin\Debug\SassAndCoffee.Core.dll
@@ -48,3 +47,4 @@ C:\Users\justbe.REDMOND.000\Dropbox\Code\OrangeBits\UnitTests\bin\Debug\ComImpor
 C:\Users\justbe.REDMOND.000\Dropbox\Code\OrangeBits\UnitTests\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\justbe.REDMOND.000\Dropbox\Code\OrangeBits\UnitTests\obj\Debug\UnitTests.dll
 C:\Users\justbe.REDMOND.000\Dropbox\Code\OrangeBits\UnitTests\obj\Debug\UnitTests.pdb
+C:\Users\justbe\Dropbox\Code\OrangeBits\UnitTests\obj\Debug\UnitTests.csprojResolveAssemblyReference.cache
