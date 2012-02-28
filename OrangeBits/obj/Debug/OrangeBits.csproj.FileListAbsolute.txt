@@ -25,7 +25,6 @@ C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\IronRuby.Libraries.
 C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\Microsoft.Dynamic.dll
 C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\Microsoft.Scripting.dll
 C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\Microsoft.Scripting.Metadata.dll
-C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\SassAndCoffee.Core.pdb
 C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\ComImports.ActiveScript.pdb
 C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\ComImports.JavaScriptEngines.pdb
 C:\Users\justbe.REDMOND.000\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\OrangeBits.dll.config
@@ -43,7 +42,11 @@ C:\Users\justbe.REDMOND.000\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\ComImpo
 C:\Users\justbe.REDMOND.000\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\ComImports.JavaScriptEngines.pdb
 C:\Users\justbe.REDMOND.000\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\Microsoft.WebMatrix.Extensibility.xml
 C:\Users\justbe.REDMOND.000\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\SassAndCoffee.Core.pdb
-C:\Users\justbe.REDMOND.000\Dropbox\Code\OrangeBits\OrangeBits\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\justbe.REDMOND.000\Dropbox\Code\OrangeBits\OrangeBits\obj\Debug\OrangeBits.dll
 C:\Users\justbe.REDMOND.000\Dropbox\Code\OrangeBits\OrangeBits\obj\Debug\OrangeBits.pdb
 C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\obj\Debug\OrangeBits.csprojResolveAssemblyReference.cache
+C:\Users\justbe.REDMOND.000\Dropbox\Code\OrangeBits\OrangeBits\obj\Debug\OrangeBits.csprojResolveAssemblyReference.cache
+C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\SassAndCoffee.AspNet.dll
+C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\SassAndCoffee.Core.dll
+C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\SassAndCoffee.JavaScript.dll
+C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\SassAndCoffee.Ruby.dll

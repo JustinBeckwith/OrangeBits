@@ -5,7 +5,7 @@ using System.Text;
 using System.IO;
 using System.Security.Principal;
 
-using SassAndCoffee.Core.Sass;
+using SassAndCoffee.Core;
 
 namespace OrangeBits.Compilers
 {
@@ -13,8 +13,8 @@ namespace OrangeBits.Compilers
     {
         public void Compile(string inPath, string outPath)
         {
-            SassAndCoffee.Core.Sass.SassCompiler compiler = new SassAndCoffee.Core.Sass.SassCompiler();
-            string output = compiler.Compile(inPath);
+            SassAndCoffee.Ruby.Sass.SassCompiler compiler = new SassAndCoffee.Ruby.Sass.SassCompiler();
+            string output = compiler.Compile(inPath, false, null);
             using (StreamWriter sw = new StreamWriter(outPath))
             {
                 sw.WriteLine(OrangeBits.GetHeader(inPath));

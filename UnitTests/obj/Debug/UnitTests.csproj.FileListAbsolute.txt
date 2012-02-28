@@ -22,11 +22,6 @@ C:\Users\justbe\Dropbox\Code\OrangeBits\UnitTests\bin\Debug\Microsoft.Scripting.
 C:\Users\justbe\Dropbox\Code\OrangeBits\UnitTests\bin\Debug\IronRuby.dll
 C:\Users\justbe\Dropbox\Code\OrangeBits\UnitTests\bin\Debug\Microsoft.Dynamic.dll
 C:\Users\justbe\Dropbox\Code\OrangeBits\UnitTests\bin\Debug\Microsoft.Scripting.Metadata.dll
-C:\Users\justbe\Dropbox\Code\OrangeBits\UnitTests\bin\Debug\ComImports.ActiveScript.dll
-C:\Users\justbe\Dropbox\Code\OrangeBits\UnitTests\bin\Debug\ComImports.JavaScriptEngines.dll
-C:\Users\justbe\Dropbox\Code\OrangeBits\UnitTests\bin\Debug\SassAndCoffee.Core.pdb
-C:\Users\justbe\Dropbox\Code\OrangeBits\UnitTests\bin\Debug\ComImports.ActiveScript.pdb
-C:\Users\justbe\Dropbox\Code\OrangeBits\UnitTests\bin\Debug\ComImports.JavaScriptEngines.pdb
 C:\Users\justbe.REDMOND.000\Dropbox\Code\OrangeBits\UnitTests\bin\Debug\UnitTests.dll
 C:\Users\justbe.REDMOND.000\Dropbox\Code\OrangeBits\UnitTests\bin\Debug\UnitTests.pdb
 C:\Users\justbe.REDMOND.000\Dropbox\Code\OrangeBits\UnitTests\bin\Debug\OrangeBits.dll
@@ -44,7 +39,9 @@ C:\Users\justbe.REDMOND.000\Dropbox\Code\OrangeBits\UnitTests\bin\Debug\Microsof
 C:\Users\justbe.REDMOND.000\Dropbox\Code\OrangeBits\UnitTests\bin\Debug\SassAndCoffee.Core.pdb
 C:\Users\justbe.REDMOND.000\Dropbox\Code\OrangeBits\UnitTests\bin\Debug\ComImports.ActiveScript.pdb
 C:\Users\justbe.REDMOND.000\Dropbox\Code\OrangeBits\UnitTests\bin\Debug\ComImports.JavaScriptEngines.pdb
-C:\Users\justbe.REDMOND.000\Dropbox\Code\OrangeBits\UnitTests\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\justbe.REDMOND.000\Dropbox\Code\OrangeBits\UnitTests\obj\Debug\UnitTests.dll
 C:\Users\justbe.REDMOND.000\Dropbox\Code\OrangeBits\UnitTests\obj\Debug\UnitTests.pdb
 C:\Users\justbe\Dropbox\Code\OrangeBits\UnitTests\obj\Debug\UnitTests.csprojResolveAssemblyReference.cache
+C:\Users\justbe.REDMOND.000\Dropbox\Code\OrangeBits\UnitTests\obj\Debug\UnitTests.csprojResolveAssemblyReference.cache
+C:\Users\justbe\Dropbox\Code\OrangeBits\UnitTests\bin\Debug\SassAndCoffee.JavaScript.dll
+C:\Users\justbe\Dropbox\Code\OrangeBits\UnitTests\bin\Debug\SassAndCoffee.Ruby.dll
