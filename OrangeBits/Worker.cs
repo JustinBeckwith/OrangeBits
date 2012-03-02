@@ -143,9 +143,7 @@ namespace OrangeBits
             {
                 var threadedOpenCmd = new Action(() => {
                     mainDispatcher.Invoke(new Action(() =>
-                    {
-                        //private const string GroupIdString = "c9506d3d-ff9a-4cdd-9bc4-c864285eb8db";
-                        //Open = 15,                        
+                    {                        
                         var openCommand = host.HostCommands.GetCommand(new Guid("c9506d3d-ff9a-4cdd-9bc4-c864285eb8db"), 15);
                         if (openCommand.CanExecute(item.Path))
                             openCommand.Execute(item.Path);
