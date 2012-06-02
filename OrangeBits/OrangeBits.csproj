@@ -39,9 +39,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Code\SassAndCoffee\SassAndCoffee.Core\bin\Debug\ComImports.JavaScriptEngines.dll</HintPath>
     </Reference>
-    <Reference Include="dotless.Core">
-      <HintPath>..\packages\dotless.1.2.1.0\lib\dotless.Core.dll</HintPath>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
+    <Reference Include="dotless.Core, Version=1.3.0.3, Culture=neutral, PublicKeyToken=96b446c9e63eae34, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\dotless.1.3.0.3\lib\dotless.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="EcmaScript.NET.modified">
+      <HintPath>..\packages\YUICompressor.NET.1.7.1.0\lib\net35\EcmaScript.NET.modified.dll</HintPath>
     </Reference>
     <Reference Include="IronRuby">
       <HintPath>..\packages\IronRuby.1.1.3\Lib\IronRuby.dll</HintPath>
@@ -90,18 +93,23 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
+    <Reference Include="Yahoo.Yui.Compressor">
+      <HintPath>..\packages\YUICompressor.NET.1.7.1.0\lib\net35\Yahoo.Yui.Compressor.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Compilers\BaseCompiler.cs" />
     <Compile Include="Compilers\CoffeeCompiler.cs" />
     <Compile Include="Compilers\CompileResults.cs" />
+    <Compile Include="Compilers\JsMinifier.cs" />
+    <Compile Include="Compilers\CssMinifier.cs" />
     <Compile Include="Compilers\ICompiler.cs" />
     <Compile Include="Compilers\LessCompiler.cs" />
     <Compile Include="Compilers\OrangeCompiler.cs" />
     <Compile Include="Compilers\SassCompiler.cs" />
     <Compile Include="Compilers\StylusCompiler.cs" />
     <Compile Include="DelegateCommand.cs" />
-    <Compile Include="FileChangeItem.cs" />
+    <Compile Include="OrangeJob.cs" />
     <Compile Include="WebMatrixExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Worker.cs" />
@@ -109,17 +117,16 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
-    <None Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if not exist "$(USERPROFILE)\AppData\Local\Microsoft\WebMatrix\Components\$(TargetName)" md "$(USERPROFILE)\AppData\Local\Microsoft\WebMatrix\Components\$(TargetName)"
-copy "$(TargetDir)*" "$(USERPROFILE)\AppData\Local\Microsoft\WebMatrix\Components\$(TargetName)" &gt; NUL</PostBuildEvent>
+    <PostBuildEvent>if not exist "$(USERPROFILE)\AppData\Local\Microsoft\WebMatrix\Extensions\20RC\$(TargetName)" md "$(USERPROFILE)\AppData\Local\Microsoft\WebMatrix\Extensions\20RC\$(TargetName)"
+copy "$(TargetDir)*" "$(USERPROFILE)\AppData\Local\Microsoft\WebMatrix\Extensions\20RC\$(TargetName)" &gt; NUL</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>if exist "$(TEMP)\WebMatrix.crash.info" del "$(TEMP)\WebMatrix.crash.info"
-if exist "$(USERPROFILE)\AppData\Local\Microsoft\WebMatrix\Components\DisabledExtensions" del "$(USERPROFILE)\AppData\Local\Microsoft\WebMatrix\Components\DisabledExtensions"</PreBuildEvent>
+if exist "$(USERPROFILE)\AppData\Local\Microsoft\WebMatrix\Extensions\20RC\DisabledExtensions" del "$(USERPROFILE)\AppData\Local\Microsoft\WebMatrix\Extensions\20RC\DisabledExtensions"</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

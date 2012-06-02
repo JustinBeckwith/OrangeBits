@@ -21,6 +21,7 @@ namespace UnitTests
 		}
 
 		private TestContext testContextInstance;
+        
 
 		/// <summary>
 		///Gets or sets the test context which provides
@@ -62,9 +63,10 @@ namespace UnitTests
 
 		[TestMethod]
 		public void TestMethod1()
-		{ 
-			string inPath = @"C:\Users\justbe\Dropbox\Code\express-template\public\stylesheets\StyleSheet.less";
-			string outPath = @"C:\Users\justbe\Dropbox\Code\express-template\public\stylesheets\StyleSheet.css";
+		{
+            string rootPath = @"C:\Users\justbe\Dropbox\Code\OrangeBits\Demo\";
+			string inPath = rootPath + @"lessTest.less";
+			string outPath = rootPath + @"lessTest.css";
 			LessCompiler compiler = new LessCompiler();
 			compiler.Compile(inPath, outPath);
 		}

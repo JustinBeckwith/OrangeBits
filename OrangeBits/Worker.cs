@@ -28,7 +28,7 @@ namespace OrangeBits
         /// <summary>
         /// queue that holds all of the files that need to be processed
         /// </summary>
-        protected Queue<FileChangeItem> queue = new Queue<FileChangeItem>();
+        protected Queue<OrangeJob> queue = new Queue<OrangeJob>();
 
         /// <summary>
         /// timer for our background thread, this polls the queue
@@ -104,12 +104,12 @@ namespace OrangeBits
         /// add a new file to process into the queue
         /// </summary>
         /// <param name="path">object that contains the path and times</param>
-        public void AddItem(string path)
+        public void AddItem(OrangeJob job)
         {
             // only add to the queue if the file isn't already in the queue
-            var exists = queue.Where(x => x.Path.ToLower() == path.ToLower()).Count() > 0;
+            var exists = queue.Where(x => x.Path.ToLower() == job.Path.ToLower()).Count() > 0;
             if (!exists)
-                this.queue.Enqueue(new FileChangeItem() { Path = path, Time = DateTime.Now });
+                this.queue.Enqueue(job);
         }
         #endregion
 
@@ -118,15 +118,26 @@ namespace OrangeBits
         /// process a file, generating the compiled output
         /// </summary>
         /// <param name="item"></param>
-        protected void ProcessItem(FileChangeItem item)
+        protected void ProcessItem(OrangeJob job)
         {
+
+            var threadedOpenCmd = new Action(() =>
+            {
+                mainDispatcher.Invoke(new Action(() =>
+                {
+                    var openCommand = host.HostCommands.OpenFileInEditor;
+                    if (openCommand.CanExecute(job.Path))
+                        openCommand.Execute(job.Path);
+                }));
+            });
+
             try
             {
                 // do the actual compilation work
-                CompileResults results = OrangeCompiler.Compile(item.Path);
+                CompileResults results = OrangeCompiler.Process(job);
 
-                // show the notification bar to notify the user it happened
-                host.ShowNotification("compiled! " + results.OutputPath);
+                // show the notification bar to notify the user it happened                
+                host.ShowNotification("Compiled", "Open File", threadedOpenCmd);
 
                 // refresh the tree so the new file (if created) shows up
                 if (results.IsNewFile)
@@ -141,18 +152,9 @@ namespace OrangeBits
             }
             catch (Exception ex)
             {
-                var threadedOpenCmd = new Action(() => {
-                    mainDispatcher.Invoke(new Action(() =>
-                    {                        
-                        var openCommand = host.HostCommands.GetCommand(new Guid("c9506d3d-ff9a-4cdd-9bc4-c864285eb8db"), 15);
-                        if (openCommand.CanExecute(item.Path))
-                            openCommand.Execute(item.Path);
-                    }));
-                });
-
-                host.ShowNotification("There was an error compiling " + item.Path, "Open File", threadedOpenCmd);
+                host.ShowNotification("There was an error compiling " + job.Path, "Open File", threadedOpenCmd);
             }
         }
-        #endregion       
+        #endregion
     }
 }

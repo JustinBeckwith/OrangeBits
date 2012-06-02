@@ -140,34 +140,101 @@
             Gets a sequence of IContextMenuItem instances that were added to the context menu.
             </summary>
         </member>
+        <member name="T:Microsoft.WebMatrix.Extensibility.Editor.EditorEventArgs">
+            <summary>
+            Provides access to the editor the event args where raised on.
+            </summary>
+        </member>
+        <member name="M:Microsoft.WebMatrix.Extensibility.Editor.EditorEventArgs.#ctor(Microsoft.WebMatrix.Extensibility.Editor.IEditor)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="editor">editor, cannot be null</param>
+        </member>
+        <member name="P:Microsoft.WebMatrix.Extensibility.Editor.EditorEventArgs.Editor">
+            <summary>
+            The editor
+            Do not cache the editor as it might get disposed at any point on the main thread
+            </summary>
+        </member>
+        <member name="T:Microsoft.WebMatrix.Extensibility.Editor.FileEventArgs">
+            <summary>
+            FileEventArgs used for notifying a change to a file after the editor was
+            closed, so we can only share some information and no access to IEditor 
+            is available.
+            </summary>
+            <remarks>
+            Note that the filepath doesn't necessarily point to disk if the file is remote
+            </remarks>
+        </member>
+        <member name="M:Microsoft.WebMatrix.Extensibility.Editor.FileEventArgs.#ctor(System.String,System.Boolean)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="path">Path to the file</param>
+            <param name="isLocal">if the file is in the file system (local or shared) set to true</param>
+        </member>
+        <member name="P:Microsoft.WebMatrix.Extensibility.Editor.FileEventArgs.Path">
+            <summary>
+            Full path in local file system is a regular file path e.g. C:\FolderName\FileName.txt
+            In remote case it will be the remote file path
+            </summary>
+        </member>
+        <member name="P:Microsoft.WebMatrix.Extensibility.Editor.FileEventArgs.IsLocal">
+            <summary>
+            True signifies that the file is from the local file system
+            </summary>
+        </member>
+        <member name="T:Microsoft.WebMatrix.Extensibility.Editor.IFileTableService">
+            <summary>
+            Import this interface to get the list of all open files, and register for change notifications
+            
+            e.g.
+            [Import(typeof(IFileTableService))]
+            private FileTableService { get; set; }
+            </summary>
+        </member>
+        <member name="P:Microsoft.WebMatrix.Extensibility.Editor.IFileTableService.OpenFiles">
+            <summary>
+            An observable collection of all the currently opened files
+            </summary>
+        </member>
+        <member name="E:Microsoft.WebMatrix.Extensibility.Editor.IFileTableService.EditorOpened">
+            <summary>
+            Fires after an editor has opened
+            </summary>
+        </member>
+        <member name="E:Microsoft.WebMatrix.Extensibility.Editor.IFileTableService.PreSave">
+            <summary>
+            Fires before saving a file
+            </summary>
+        </member>
+        <member name="E:Microsoft.WebMatrix.Extensibility.Editor.IFileTableService.PostSave">
+            <summary>
+            Fires after saving a file
+            </summary>
+        </member>
+        <member name="E:Microsoft.WebMatrix.Extensibility.Editor.IFileTableService.PreEditorClosed">
+            <summary>
+            Fires before a file is closed
+            </summary>
+        </member>
+        <member name="T:Microsoft.WebMatrix.Extensibility.ExtensionMethods">
+            <summary>
+            Class that contains useful extension methods.
+            </summary>
+        </member>
+        <member name="M:Microsoft.WebMatrix.Extensibility.ExtensionMethods.GetService``1(System.IServiceProvider)">
+            <summary>
+            Gets a type-safe service from an IServiceProvider instance.
+            </summary>
+            <typeparam name="T">Service type.</typeparam>
+            <param name="serviceProvider">Service provider.</param>
+            <returns>Service instance.</returns>
+        </member>
         <member name="T:Microsoft.WebMatrix.Extensibility.DashboardItem">
             <summary>
             Class that represents a dashboard item.
-            </summary>
-        </member>
-        <member name="T:Microsoft.WebMatrix.Extensibility.IDashboardItem">
-            <summary>
-            Interface for representing an item on the dashboard.
-            </summary>
-        </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IDashboardItem.Title">
-            <summary>
-            Gets the item's title.
-            </summary>
-        </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IDashboardItem.Description">
-            <summary>
-            Gets the item's description.
-            </summary>
-        </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IDashboardItem.Uri">
-            <summary>
-            Gets the URI to navigate to when the item is clicked.
-            </summary>
-        </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IDashboardItem.Image">
-            <summary>
-            Gets a 32x32 image to display next to the item.
             </summary>
         </member>
         <member name="M:Microsoft.WebMatrix.Extensibility.DashboardItem.#ctor(System.String,System.String,System.Uri)">
@@ -405,11 +472,6 @@
             Class that represents an editor theme.
             </summary>
         </member>
-        <member name="F:Microsoft.WebMatrix.Extensibility.Editor.Theme.GlobalSettingKeys">
-            <summary>
-            The global editor settings directly supported by the Theme
-            </summary>
-        </member>
         <member name="M:Microsoft.WebMatrix.Extensibility.Editor.Theme.#ctor(System.String)">
             <summary>
             Initializes a new instance of the Theme class.
@@ -449,6 +511,11 @@
             </summary>
             <param name="classificationName">Classification name.</param>
             <returns>FormatData instance.</returns>
+        </member>
+        <member name="P:Microsoft.WebMatrix.Extensibility.Editor.Theme.GlobalSettingKeys">
+            <summary>
+            The global editor settings directly supported by the Theme
+            </summary>
         </member>
         <member name="P:Microsoft.WebMatrix.Extensibility.Editor.Theme.DefaultFormat">
             <summary>
@@ -537,6 +604,19 @@
             <param name="contentTypeName">Content type.</param>
             <returns>True if registered.</returns>
         </member>
+        <member name="M:Microsoft.WebMatrix.Extensibility.Editor.IFileTypeManagementService.IsBasedOn(System.String,System.String)">
+             <summary>
+             Checks if a contentType is based on another type.
+             For example a PHP file is based on an HTML file.
+            
+             Always get the contentType rather than hard code it.
+             
+             Exceptions: ArgumentException if any of the types is null or whitespace.
+             </summary>
+             <param name="potentialBaseType">potential base type</param>
+             <param name="contentType">potential derive type</param>
+             <returns>true if the same or base, false otherwise.</returns>
+        </member>
         <member name="T:Microsoft.WebMatrix.Extensibility.Editor.IFileTypeManagementServiceProvider">
             <summary>
             Interface for a file type management service provider.
@@ -548,36 +628,36 @@
             </summary>
             <returns>IFileTypeManagementService instance.</returns>
         </member>
-        <member name="T:Microsoft.WebMatrix.Extensibility.IEditorSelection">
+        <member name="T:Microsoft.WebMatrix.Extensibility.Editor.IEditorSelection">
             <summary>
             Interface used to access the caret, selection, and text insertion in an editor
             Typically available through the ServiceProvider on the IEditorExt interface
             </summary>
         </member>
-        <member name="T:Microsoft.WebMatrix.Extensibility.IEditorText">
+        <member name="T:Microsoft.WebMatrix.Extensibility.Editor.IEditorText">
             <summary>
             Text service on a typical IEditor
             </summary>
         </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IEditorText.Text">
+        <member name="P:Microsoft.WebMatrix.Extensibility.Editor.IEditorText.Text">
             <summary>
             Represents all the text in the editor. Setting the text
             will clear the dirty state.
             </summary>
         </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IEditorText.ReadOnly">
+        <member name="P:Microsoft.WebMatrix.Extensibility.Editor.IEditorText.ReadOnly">
             <summary>
             Is the current text currently readonly
             Note: In some cases we will allow to override the readonly state when you try to update the text
             An automatic Dialog will popup and ask for the readonly state to change
             </summary>
         </member>
-        <member name="M:Microsoft.WebMatrix.Extensibility.IEditorSelection.SelectAll">
+        <member name="M:Microsoft.WebMatrix.Extensibility.Editor.IEditorSelection.SelectAll">
             <devdoc>
             Selects all text in the editor.
             </devdoc>
         </member>
-        <member name="M:Microsoft.WebMatrix.Extensibility.IEditorSelection.GoTo(System.Int32,System.Int32,System.Int32)">
+        <member name="M:Microsoft.WebMatrix.Extensibility.Editor.IEditorSelection.GoTo(System.Int32,System.Int32,System.Int32)">
             <devdoc>
             Selects a range of text in the editor.
             </devdoc>
@@ -585,49 +665,49 @@
             <param name="offsetFromStart">Offset from the beginning of "line"</param>
             <param name="length">Count of characters to select</param>
         </member>
-        <member name="M:Microsoft.WebMatrix.Extensibility.IEditorSelection.InsertText(System.String)">
+        <member name="M:Microsoft.WebMatrix.Extensibility.Editor.IEditorSelection.InsertText(System.String)">
             <summary>
             Inserts text into the current editor if it is still open, and haven't been disposed
             </summary>
             <param name="text">text to be inserted</param>
             <returns>true if insertion is succesful</returns>
         </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IEditorSelection.SelectedText">
+        <member name="P:Microsoft.WebMatrix.Extensibility.Editor.IEditorSelection.SelectedText">
             <summary>
             Gets the text in the selection.
             </summary>
         </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IEditorSelection.LineCount">
+        <member name="P:Microsoft.WebMatrix.Extensibility.Editor.IEditorSelection.LineCount">
             <devdoc>
             Count of lines in the editor.
             </devdoc>
         </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IEditorSelection.CurrentLine">
+        <member name="P:Microsoft.WebMatrix.Extensibility.Editor.IEditorSelection.CurrentLine">
             <devdoc>
             Cursor's line in the editor.
             </devdoc>
         </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IEditorSelection.CurrentColumn">
+        <member name="P:Microsoft.WebMatrix.Extensibility.Editor.IEditorSelection.CurrentColumn">
             <devdoc>
             Cursor's column in the editor.
             </devdoc>
         </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IEditorSelection.CaretPosition">
+        <member name="P:Microsoft.WebMatrix.Extensibility.Editor.IEditorSelection.CaretPosition">
             <summary>
             Buffer position.
             </summary>
         </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IEditorSelection.StartSelectionPosition">
+        <member name="P:Microsoft.WebMatrix.Extensibility.Editor.IEditorSelection.StartSelectionPosition">
             <summary>
             Buffer position for start of selection.
             </summary>
         </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IEditorSelection.EndSelectionPosition">
+        <member name="P:Microsoft.WebMatrix.Extensibility.Editor.IEditorSelection.EndSelectionPosition">
             <summary>
             Buffer position for end of selection.
             </summary>
         </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IEditorSelection.IsBlockSelection">
+        <member name="P:Microsoft.WebMatrix.Extensibility.Editor.IEditorSelection.IsBlockSelection">
             <summary>
             True if the selection is a block selection: individually selected fragments of lines.
             </summary>
@@ -928,17 +1008,17 @@
             Gets or sets the theme file location.
             </summary>
         </member>
-        <member name="T:Microsoft.WebMatrix.Extensibility.IExtensibilityEditorFactory">
+        <member name="T:Microsoft.WebMatrix.Extensibility.Editor.IExtensibilityEditorFactory">
             <summary>
             Base interface for extending the editor, base factory is just a marker interface
             </summary>
         </member>
-        <member name="T:Microsoft.WebMatrix.Extensibility.ITextEditorFactory">
+        <member name="T:Microsoft.WebMatrix.Extensibility.Editor.ITextEditorFactory">
             <summary>
             Text factory interface
             </summary>
         </member>
-        <member name="M:Microsoft.WebMatrix.Extensibility.ITextEditorFactory.CreateTextEditor(System.String,System.String)">
+        <member name="M:Microsoft.WebMatrix.Extensibility.Editor.ITextEditorFactory.CreateTextEditor(System.String,System.String)">
             <summary>
             Create a text editor
             </summary>
@@ -946,12 +1026,12 @@
             <param name="text">default text</param>
             <returns>an editor instance</returns>
         </member>
-        <member name="T:Microsoft.WebMatrix.Extensibility.ICustomEditorFactory">
+        <member name="T:Microsoft.WebMatrix.Extensibility.Editor.ICustomEditorFactory">
             <summary>
             Create a custom editor (e.g. binary file editor)
             </summary>
         </member>
-        <member name="M:Microsoft.WebMatrix.Extensibility.ICustomEditorFactory.CreateCustomEditor(System.String,System.Func{System.String,System.Boolean}@,System.Func{System.String,Microsoft.WebMatrix.Extensibility.SaveFileResult}@)">
+        <member name="M:Microsoft.WebMatrix.Extensibility.Editor.ICustomEditorFactory.CreateCustomEditor(System.String,System.Func{System.String,System.Boolean}@,System.Func{System.String,Microsoft.WebMatrix.Extensibility.Editor.SaveFileResult}@)">
             <summary>
             Factory method for creating a custom editor
             </summary>
@@ -960,129 +1040,129 @@
             <param name="saverDelegate">Save method</param>
             <returns>editor instance</returns>
         </member>
-        <member name="T:Microsoft.WebMatrix.Extensibility.SaveFileResult">
+        <member name="T:Microsoft.WebMatrix.Extensibility.Editor.SaveFileResult">
             <summary>
             Result of save
             </summary>
         </member>
-        <member name="F:Microsoft.WebMatrix.Extensibility.SaveFileResult.FatalError">
+        <member name="F:Microsoft.WebMatrix.Extensibility.Editor.SaveFileResult.FatalError">
             <summary>
             Save failed, no recovery possible
             </summary>
         </member>
-        <member name="F:Microsoft.WebMatrix.Extensibility.SaveFileResult.Saved">
+        <member name="F:Microsoft.WebMatrix.Extensibility.Editor.SaveFileResult.Saved">
             <summary>
             File saved
             </summary>
         </member>
-        <member name="F:Microsoft.WebMatrix.Extensibility.SaveFileResult.SaveError">
+        <member name="F:Microsoft.WebMatrix.Extensibility.Editor.SaveFileResult.SaveError">
             <summary>
             Error when saving the file, recoverable
             </summary>
         </member>
-        <member name="F:Microsoft.WebMatrix.Extensibility.SaveFileResult.UserCanceled">
+        <member name="F:Microsoft.WebMatrix.Extensibility.Editor.SaveFileResult.UserCanceled">
             <summary>
             User cancelled during save
             </summary>
         </member>
-        <member name="T:Microsoft.WebMatrix.Extensibility.IExtensibilityEditorFactoryProvider">
+        <member name="T:Microsoft.WebMatrix.Extensibility.Editor.IExtensibilityEditorFactoryProvider">
             <summary>
             MEF Export for editor factory provider
             </summary>
         </member>
-        <member name="M:Microsoft.WebMatrix.Extensibility.IExtensibilityEditorFactoryProvider.GetFactory">
+        <member name="M:Microsoft.WebMatrix.Extensibility.Editor.IExtensibilityEditorFactoryProvider.GetFactory">
             <summary>
             Get Factory
             </summary>
             <returns>The editor factory</returns>
         </member>
-        <member name="T:Microsoft.WebMatrix.Extensibility.IExtensibilityEditorFactoryProviderMetadata">
+        <member name="T:Microsoft.WebMatrix.Extensibility.Editor.IExtensibilityEditorFactoryProviderMetadata">
             <summary>
             MEF Metadata export descriptor
             </summary>
         </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IExtensibilityEditorFactoryProviderMetadata.ContentType">
+        <member name="P:Microsoft.WebMatrix.Extensibility.Editor.IExtensibilityEditorFactoryProviderMetadata.ContentType">
             <summary>
             Content type, must be unique
             </summary>
         </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IExtensibilityEditorFactoryProviderMetadata.Name">
+        <member name="P:Microsoft.WebMatrix.Extensibility.Editor.IExtensibilityEditorFactoryProviderMetadata.Name">
             <summary>
             Name of editor
             </summary>
         </member>
-        <member name="T:Microsoft.WebMatrix.Extensibility.ExtensionBase">
+        <member name="T:Microsoft.WebMatrix.Extensibility.Extension">
             <summary>
-            an implementation that provides a convenient starting-point for creating a WebMatrix extension.
+            Provides a common starting point for creating a WebMatrix extension.
             </summary>
         </member>
-        <member name="M:Microsoft.WebMatrix.Extensibility.ExtensionBase.#ctor(System.String)">
+        <member name="M:Microsoft.WebMatrix.Extensibility.Extension.#ctor(System.String)">
             <summary>
-            Initializes a new instance of the ExtensionBase class.
+            Initializes a new instance of the Extension class.
             </summary>
             <param name="name">User-friendly extension name.</param>
         </member>
-        <member name="F:Microsoft.WebMatrix.Extensibility.ExtensionBase._webMatrixHost">
+        <member name="F:Microsoft.WebMatrix.Extensibility.Extension._webMatrixHost">
             <summary>
             Stores the IWebMatrixHost host interface.
             </summary>
         </member>
-        <member name="M:Microsoft.WebMatrix.Extensibility.ExtensionBase.OnWebMatrixHostChanged(Microsoft.WebMatrix.Extensibility.IWebMatrixHost,Microsoft.WebMatrix.Extensibility.IWebMatrixHost)">
+        <member name="M:Microsoft.WebMatrix.Extensibility.Extension.Initialize(Microsoft.WebMatrix.Extensibility.IWebMatrixHost,Microsoft.WebMatrix.Extensibility.ExtensionInitData)">
             <summary>
-            Method that is called when the WebMatrixHost property changes
+            Initialization gets called once by WebMatrix at startup.
             </summary>
-            <param name="oldValue">Old value.</param>
-            <param name="newValue">New value.</param>
+            <remarks>
+            Note that the data in initData (ribbonItems and dashboardItems) is copied after initialize is called,
+            and cannot be changed for the lifetime of the extension.
+            </remarks>
+            <param name="host">WebMatrixHost to be used by the extension.</param>
+            <param name="initData">Fill in the collections with initial items e.g. ribbonItems, dashboardItems.</param>
         </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.ExtensionBase.Name">
+        <member name="M:Microsoft.WebMatrix.Extensibility.Extension.OnInstall">
+            <summary>
+            Override to present additional UI when the extension is first added to WebMatrix using the extension dialog.
+            </summary>
+        </member>
+        <member name="P:Microsoft.WebMatrix.Extensibility.Extension.Name">
             <summary>
             Gets the user-friendly name of the extension.
             </summary>
             <example>MyExtension</example>
         </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.ExtensionBase.Version">
+        <member name="P:Microsoft.WebMatrix.Extensibility.Extension.Version">
             <summary>
             Gets the user-friendly version of the extension.
             </summary>
             <example>1.0</example>
         </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.ExtensionBase.DashboardItems">
+        <member name="P:Microsoft.WebMatrix.Extensibility.Extension.DashboardItems">
             <summary>
-            Gets a sequence of Dashboard items.
+            Gets a sequence of Dashboard items that are always available.
             </summary>
         </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.ExtensionBase.DashboardItemsCollection">
-            <summary>
-            Gets a collection of IDashboardItem instances.
-            </summary>
-        </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.ExtensionBase.RibbonItems">
+        <member name="P:Microsoft.WebMatrix.Extensibility.Extension.RibbonItems">
             <summary>
             Gets a sequence of Ribbon items that are always available.
             </summary>
         </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.ExtensionBase.RibbonItemsCollection">
+        <member name="P:Microsoft.WebMatrix.Extensibility.Extension.ContextualTabItems">
             <summary>
-            Gets a collection of IRibbonItem instances.
-            </summary>
-            <remarks>
-            Must be set in the constructor and not modified afterward.
-            </remarks>
-        </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.ExtensionBase.ContextualTabItemCollection">
-            <summary>
-            Public contextual tab list, used by WebMatrix to load and show the tabs.
-            It's a readonly collection such that no one else can import it and modify the collection.
+            Gets a collection of RibbonContextualTab instances.
             </summary>
         </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.ExtensionBase.ContextualTabItemCollectionInternal">
-            <summary>
-            Add and remove items from this collection to make them appear and dissapear as needed
-            </summary>
-        </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.ExtensionBase.WebMatrixHost">
+        <member name="P:Microsoft.WebMatrix.Extensibility.Extension.WebMatrixHost">
             <summary>
             Gets the IWebMatrixHost host instance.
+            </summary>
+        </member>
+        <member name="P:Microsoft.WebMatrix.Extensibility.Extension.HasInstaller">
+            <summary>
+            Override to indicate that the extension has installation UI that it would like to display.
+            </summary>
+        </member>
+        <member name="P:Microsoft.WebMatrix.Extensibility.Extension.IsInstalled">
+            <summary>
+            Override to indicate if the extension installation is complete.
             </summary>
         </member>
         <member name="T:Microsoft.WebMatrix.Extensibility.HierarchyId">
@@ -1202,102 +1282,109 @@
             Event to invoke when the dialog should close.
             </summary>
         </member>
-        <member name="T:Microsoft.WebMatrix.Extensibility.IEditor">
+        <member name="T:Microsoft.WebMatrix.Extensibility.Editor.IEditor">
             <summary>
             Generic editor interface
             </summary>
         </member>
-        <member name="M:Microsoft.WebMatrix.Extensibility.IEditor.Focus">
+        <member name="M:Microsoft.WebMatrix.Extensibility.Editor.IEditor.Focus">
             <summary>
             Sets focus to the editor
             </summary>
         </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IEditor.FilePath">
+        <member name="P:Microsoft.WebMatrix.Extensibility.Editor.IEditor.FilePath">
             <summary>
             This tells the editor what type of the content it holds
             by using a file extension (like "txt", "html", etc...)
             </summary>
         </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IEditor.ReadOnly">
+        <member name="P:Microsoft.WebMatrix.Extensibility.Editor.IEditor.ReadOnly">
             <summary>
             When true, the user can't edit the text
             </summary>
         </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IEditor.Dirty">
+        <member name="P:Microsoft.WebMatrix.Extensibility.Editor.IEditor.Dirty">
             <summary>
             Was the text modified by the user?
             </summary>
         </member>
-        <member name="E:Microsoft.WebMatrix.Extensibility.IEditor.DirtyChanged">
+        <member name="E:Microsoft.WebMatrix.Extensibility.Editor.IEditor.DirtyChanged">
             <summary>
             Occurs after the value of the Dirty property has changed
             </summary>
         </member>
-        <member name="E:Microsoft.WebMatrix.Extensibility.IEditor.ReadOnlyChanging">
+        <member name="E:Microsoft.WebMatrix.Extensibility.Editor.IEditor.ReadOnlyChanging">
             <summary>
             Readonly is changing
             </summary>
         </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IEditor.ServiceProvider">
+        <member name="P:Microsoft.WebMatrix.Extensibility.Editor.IEditor.ServiceProvider">
             <summary>
             Gets optional services of this editor
             e.g. IEditorSelection
             </summary>
         </member>
-        <member name="E:Microsoft.WebMatrix.Extensibility.IEditor.GotFocus">
+        <member name="E:Microsoft.WebMatrix.Extensibility.Editor.IEditor.GotFocus">
             <summary>
             Fires an event if the focus has changed to the editor
             If the editor is disposed no more events will be fired
             </summary>
         </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IEditor.HasFocus">
+        <member name="P:Microsoft.WebMatrix.Extensibility.Editor.IEditor.HasFocus">
             <summary>
             returns true if the focus is in the editor
             </summary>
         </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IEditor.Control">
+        <member name="P:Microsoft.WebMatrix.Extensibility.Editor.IEditor.Control">
             <summary>
             This is the control that will be hosted in the UI.
             </summary>
         </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IEditor.CommandTarget">
+        <member name="P:Microsoft.WebMatrix.Extensibility.Editor.IEditor.CommandTarget">
             <summary>
             The editor can optionally support a set of commands.
             This can return null if the editor doesn't care about commands.
             </summary>
         </member>
-        <member name="T:Microsoft.WebMatrix.Extensibility.IEditorTaskPanelService">
+        <member name="P:Microsoft.WebMatrix.Extensibility.Editor.IEditor.TechnologyName">
+            <summary>
+            Optional:
+            A string specifying technology used in the file
+            For example a javascript file can be browser javascript or NodeJs, and hence will return different technologynames
+            </summary>
+        </member>
+        <member name="T:Microsoft.WebMatrix.Extensibility.Editor.IEditorTaskPanelService">
             <summary>
             Allows adding tabs to the bottom of the editor page
             </summary>
         </member>
-        <member name="M:Microsoft.WebMatrix.Extensibility.IEditorTaskPanelService.AddTaskTab(System.Guid,Microsoft.WebMatrix.Extensibility.TaskTabItemDescriptor)">
+        <member name="M:Microsoft.WebMatrix.Extensibility.Editor.IEditorTaskPanelService.AddTaskTab(System.Guid,Microsoft.WebMatrix.Extensibility.TaskTabItemDescriptor)">
             <summary>
             Adds a task tab
             </summary>
             <param name="id">Unique id for the tab</param>
             <param name="descriptor">Descriptor of tab content and header</param>
         </member>
-        <member name="M:Microsoft.WebMatrix.Extensibility.IEditorTaskPanelService.RemoveTaskTab(System.Guid)">
+        <member name="M:Microsoft.WebMatrix.Extensibility.Editor.IEditorTaskPanelService.RemoveTaskTab(System.Guid)">
             <summary>
             Remove a task tab
             </summary>
             <param name="id">Unique id for the tab</param>
         </member>
-        <member name="M:Microsoft.WebMatrix.Extensibility.IEditorTaskPanelService.ShowTaskTab(System.Guid)">
+        <member name="M:Microsoft.WebMatrix.Extensibility.Editor.IEditorTaskPanelService.ShowTaskTab(System.Guid)">
             <summary>
             Shows the tab if it's not visibile, otherwise noop. Will throw if tab doesn't exist
             </summary>
             <param name="id">Unique id for the tab</param>
         </member>
-        <member name="M:Microsoft.WebMatrix.Extensibility.IEditorTaskPanelService.TaskTabExists(System.Guid)">
+        <member name="M:Microsoft.WebMatrix.Extensibility.Editor.IEditorTaskPanelService.TaskTabExists(System.Guid)">
             <summary>
             Checks if tab exists
             </summary>
             <param name="id">Unique id for the tab</param>
             <returns>true if tab exists</returns>
         </member>
-        <member name="M:Microsoft.WebMatrix.Extensibility.IEditorTaskPanelService.TryGetTaskTabDescriptor(System.Guid,Microsoft.WebMatrix.Extensibility.TaskTabItemDescriptor@)">
+        <member name="M:Microsoft.WebMatrix.Extensibility.Editor.IEditorTaskPanelService.TryGetTaskTabDescriptor(System.Guid,Microsoft.WebMatrix.Extensibility.TaskTabItemDescriptor@)">
             <summary>
             Returns a descriptor if tab exists
             </summary>
@@ -1305,17 +1392,17 @@
             <param name="descriptor">Descriptor of tab content and header</param>
             <returns>true if tab exists</returns>
         </member>
-        <member name="M:Microsoft.WebMatrix.Extensibility.IEditorTaskPanelService.ShowBottomPane">
+        <member name="M:Microsoft.WebMatrix.Extensibility.Editor.IEditorTaskPanelService.ShowBottomPane">
             <summary>
             Shows the whole tab control
             </summary>
         </member>
-        <member name="M:Microsoft.WebMatrix.Extensibility.IEditorTaskPanelService.HideBottomPane">
+        <member name="M:Microsoft.WebMatrix.Extensibility.Editor.IEditorTaskPanelService.HideBottomPane">
             <summary>
             Hides the whole tab control
             </summary>
         </member>
-        <member name="E:Microsoft.WebMatrix.Extensibility.IEditorTaskPanelService.PageChanged">
+        <member name="E:Microsoft.WebMatrix.Extensibility.Editor.IEditorTaskPanelService.PageChanged">
             <summary>
             Fires when the page changes (typically when switching from local to remote or changing sites)
             In this case all tabs are removed and the extension implementor should re-add the tabs
@@ -1389,9 +1476,18 @@
             Icon must be present, otherwise the menu will not be shown
             </summary>
         </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.INewSiteProvider.Text">
+        <member name="P:Microsoft.WebMatrix.Extensibility.INewSiteProvider.InvariantName">
             <summary>
-            Text to be shown, limit length of text, it will be trimmed if too long
+            Gets an invariant name for the menu item to be created.
+            </summary>
+            <remarks>
+            This name can be used by automation tools to identify the item created by this provided.
+            This value should not be localized.
+            </remarks>
+        </member>
+        <member name="P:Microsoft.WebMatrix.Extensibility.INewSiteProvider.Label">
+            <summary>
+            Label to be shown, limit length of text, it will be trimmed if too long
             </summary>
         </member>
         <member name="P:Microsoft.WebMatrix.Extensibility.INewSiteProvider.Tooltip">
@@ -1409,6 +1505,36 @@
             When the site is created and opened, the website changed event will fire, the implementor can then
             use it for any fixups he wants to do on the site post creation
             </summary>
+        </member>
+        <member name="T:Microsoft.WebMatrix.Extensibility.ExtensionInitData">
+            <summary>
+                Provides access to objects used to initialize the extension.
+            </summary>
+            <remarks>
+                Do not cache this object for future use, since it
+                is only being read at extension initialization.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.WebMatrix.Extensibility.ExtensionInitData.#ctor">
+            <summary>
+            Internal constructor
+            </summary>
+        </member>
+        <member name="P:Microsoft.WebMatrix.Extensibility.ExtensionInitData.RibbonItems">
+            <summary>
+            Populate the collection with ribbon items to show.
+            </summary>
+            <remarks>
+            This collection initialized as empty before initialize is called for each extension.
+            </remarks>
+        </member>
+        <member name="P:Microsoft.WebMatrix.Extensibility.ExtensionInitData.DashboardItems">
+            <summary>
+            Populate the collection with Dashboard items to show.
+            </summary>
+            <remarks>
+            This collection initialized as empty before initialize is called for each extension.
+            </remarks>
         </member>
         <member name="T:Microsoft.WebMatrix.Extensibility.IPreferences">
             <summary>
@@ -1468,171 +1594,6 @@
         <member name="P:Microsoft.WebMatrix.Extensibility.IProtectPathInfo.AllowInNestedFolders">
             <summary>
             Value indicating whether to allow the relative path to match in nested folders (i.e., sub-directories).
-            </summary>
-        </member>
-        <member name="T:Microsoft.WebMatrix.Extensibility.IRibbonContextualTab">
-            <summary>
-            Interface for representing a contextual tab on the Ribbon.
-            </summary>
-        </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IRibbonContextualTab.Label">
-            <summary>
-            Gets a label for the item.
-            </summary>
-        </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IRibbonContextualTab.Items">
-            <summary>
-            Gets a sequence of IRibbonItem instances.
-            </summary>
-        </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IRibbonContextualTab.IsVisible">
-            <summary>
-            Gets a value indicating whether the contextual tab is visible.
-            </summary>
-        </member>
-        <member name="T:Microsoft.WebMatrix.Extensibility.IRibbonGalleryCategory">
-            <summary>
-            Interface that represents a category in a Ribbon gallery.
-            </summary>
-        </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IRibbonGalleryCategory.Header">
-            <summary>
-            Gets the header text.
-            </summary>
-        </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IRibbonGalleryCategory.Items">
-            <summary>
-            Gets a sequence of items in the category.
-            </summary>
-        </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IRibbonGalleryCategory.ItemTemplate">
-            <summary>
-            Gets a DataTemplate used to display the items in the category.
-            </summary>
-        </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IRibbonGalleryCategory.ItemContainerStyle">
-            <summary>
-            Gets a Style used for the containers of items in the category.
-            </summary>
-        </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IRibbonGalleryCategory.ColumnCount">
-            <summary>
-            Gets the number of columns to use for laying out items in the category.
-            </summary>
-        </member>
-        <member name="T:Microsoft.WebMatrix.Extensibility.IRibbonGroup">
-            <summary>
-            Interface for representing a group on the Ribbon.
-            </summary>
-        </member>
-        <member name="T:Microsoft.WebMatrix.Extensibility.IRibbonItem">
-            <summary>
-            Interface for representing an item on the Ribbon.
-            </summary>
-        </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IRibbonItem.Label">
-            <summary>
-            Gets a label for the item.
-            </summary>
-        </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IRibbonGroup.Items">
-            <summary>
-            Gets a sequence of IRibbonItem instances.
-            </summary>
-        </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IRibbonGroup.IsVisible">
-            <summary>
-            Gets a value indicating whether the group is visible.
-            </summary>
-        </member>
-        <member name="T:Microsoft.WebMatrix.Extensibility.IRibbonMenuButton">
-            <summary>
-            Interface for representing a menu-button on the Ribbon.
-            </summary>
-        </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IRibbonMenuButton.Items">
-            <summary>
-            Gets a sequence of IRibbonButtons to show when the menu-button is pressed.
-            </summary>
-        </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IRibbonMenuButton.SmallImage">
-            <summary>
-            Gets a 16x16 image for the button.
-            </summary>
-        </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IRibbonMenuButton.LargeImage">
-            <summary>
-            Gets a 32x32 image for the button.
-            </summary>
-        </member>
-        <member name="T:Microsoft.WebMatrix.Extensibility.IRibbonSplitButton">
-            <summary>
-            Interface for representing a split-button on the Ribbon.
-            </summary>
-        </member>
-        <member name="T:Microsoft.WebMatrix.Extensibility.IRibbonButton">
-            <summary>
-            Interface for representing a button on the Ribbon.
-            </summary>
-        </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IRibbonButton.Command">
-            <summary>
-            Gets the command to invoke when the button is pressed.
-            </summary>
-        </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IRibbonButton.CommandId">
-            <summary>
-            Gets or sets the command ID to invoke when the button is pressed.
-            </summary>
-        </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IRibbonButton.CommandParameter">
-            <summary>
-            Gets or sets the command parameter to pass to the Command or CommandId.
-            </summary>
-        </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IRibbonButton.SmallImage">
-            <summary>
-            Gets a 16x16 image for the button.
-            </summary>
-        </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IRibbonButton.LargeImage">
-            <summary>
-            Gets a 32x32 image for the button.
-            </summary>
-        </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IRibbonSplitButton.Items">
-            <summary>
-            Gets a sequence of IRibbonButtons to show when the split-button is expanded.
-            </summary>
-        </member>
-        <member name="T:Microsoft.WebMatrix.Extensibility.IRibbonSplitButtonGallery">
-            <summary>
-            Interface for representing a split-button on the Ribbon that expands to a gallery.
-            </summary>
-        </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IRibbonSplitButtonGallery.Categories">
-            <summary>
-            Gets a sequence of category instances for the gallery.
-            </summary>
-        </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IRibbonSplitButtonGallery.GalleryCommand">
-            <summary>
-            Gets the command to invoke when an item is chosen from the gallery.
-            </summary>
-        </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IRibbonSplitButtonGallery.GalleryCommandId">
-            <summary>
-            Gets the command ID to invoke when an item is chosen from the gallery.
-            </summary>
-        </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IRibbonSplitButtonGallery.GalleryOpening">
-            <summary>
-            Gets an action to invoke when the gallery is opening.
-            </summary>
-        </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IRibbonSplitButtonGallery.GalleryClosing">
-            <summary>
-            Gets an action to invoke when the gallery is closing.
             </summary>
         </member>
         <member name="T:Microsoft.WebMatrix.Extensibility.ISiteFile">
@@ -1722,17 +1683,127 @@
             Value indicating whether to allow the relative path to match in nested folders (i.e., sub-directories).
             </summary>
         </member>
+        <member name="T:Microsoft.WebMatrix.Extensibility.RibbonButtonGallery">
+            <summary>
+            Class that represents a Ribbon menu button that expands to a gallery.
+            </summary>
+        </member>
+        <member name="T:Microsoft.WebMatrix.Extensibility.RibbonItem">
+            <summary>
+            Class for representing an item on the Ribbon.
+            </summary>
+            <remarks>
+            This acts as a base class and is not meant to be used directly.
+            </remarks>
+        </member>
+        <member name="P:Microsoft.WebMatrix.Extensibility.RibbonItem.Label">
+            <summary>
+            Gets a label for the item.
+            </summary>
+        </member>
+        <member name="M:Microsoft.WebMatrix.Extensibility.RibbonButtonGallery.#ctor(System.String,System.Windows.Input.ICommand,Microsoft.WebMatrix.Extensibility.ICommandId,System.Collections.Generic.IEnumerable{Microsoft.WebMatrix.Extensibility.RibbonGalleryCategory},System.Windows.Media.ImageSource,System.Windows.Media.ImageSource)">
+            <summary>
+            Initializes a new instance of the RibbonButtonGallery class.
+            </summary>
+            <param name="label">Label for the item.</param>
+            <param name="galleryCommand">Command to invoke when a gallery item is selected.</param>
+            <param name="galleryCommandId">Command ID to invoke when a gallery item is selected.</param>
+            <param name="categories">Sequence of categories to show in the gallery.</param>
+            <param name="smallImage">16x16 image for the button.</param>
+            <param name="largeImage">32x32 image for the button.</param>
+        </member>
+        <member name="M:Microsoft.WebMatrix.Extensibility.RibbonButtonGallery.#ctor(System.String,System.Windows.Input.ICommand,System.Collections.Generic.IEnumerable{Microsoft.WebMatrix.Extensibility.RibbonGalleryCategory},System.Windows.Media.ImageSource,System.Windows.Media.ImageSource)">
+            <summary>
+            Initializes a new instance of the RibbonSplitButtonGallery class.
+            </summary>
+            <param name="label">Label for the item.</param>
+            <param name="galleryCommand">Command to invoke when a gallery item is selected.</param>
+            <param name="categories">Sequence of categories to show in the gallery.</param>
+            <param name="smallImage">16x16 image for the button.</param>
+            <param name="largeImage">32x32 image for the button.</param>
+        </member>
+        <member name="M:Microsoft.WebMatrix.Extensibility.RibbonButtonGallery.#ctor(System.String,Microsoft.WebMatrix.Extensibility.ICommandId,System.Collections.Generic.IEnumerable{Microsoft.WebMatrix.Extensibility.RibbonGalleryCategory},System.Windows.Media.ImageSource,System.Windows.Media.ImageSource)">
+            <summary>
+            Initializes a new instance of the RibbonSplitButtonGallery class.
+            </summary>
+            <param name="label">Label for the item.</param>
+            <param name="galleryCommandId">Command ID to invoke when a gallery item is selected.</param>
+            <param name="categories">Sequence of categories to show in the gallery.</param>
+            <param name="smallImage">16x16 image for the button.</param>
+            <param name="largeImage">32x32 image for the button.</param>
+        </member>
+        <member name="M:Microsoft.WebMatrix.Extensibility.RibbonButtonGallery.#ctor(System.String,System.Windows.Input.ICommand,System.Collections.Generic.IEnumerable{Microsoft.WebMatrix.Extensibility.RibbonGalleryCategory},System.Drawing.Bitmap,System.Drawing.Bitmap)">
+            <summary>
+            Initializes a new instance of the RibbonSplitButtonGallery class.
+            </summary>
+            <param name="label">Label for the item.</param>
+            <param name="galleryCommand">Command to invoke when a gallery item is selected.</param>
+            <param name="categories">Sequence of categories to show in the gallery.</param>
+            <param name="smallImage">16x16 image for the button.</param>
+            <param name="largeImage">32x32 image for the button.</param>
+        </member>
+        <member name="M:Microsoft.WebMatrix.Extensibility.RibbonButtonGallery.#ctor(System.String,Microsoft.WebMatrix.Extensibility.ICommandId,System.Collections.Generic.IEnumerable{Microsoft.WebMatrix.Extensibility.RibbonGalleryCategory},System.Drawing.Bitmap,System.Drawing.Bitmap)">
+            <summary>
+            Initializes a new instance of the RibbonSplitButtonGallery class.
+            </summary>
+            <param name="label">Label for the item.</param>
+            <param name="galleryCommandId">Command ID to invoke when a gallery item is selected.</param>
+            <param name="categories">Sequence of categories to show in the gallery.</param>
+            <param name="smallImage">16x16 image for the button.</param>
+            <param name="largeImage">32x32 image for the button.</param>
+        </member>
+        <member name="P:Microsoft.WebMatrix.Extensibility.RibbonButtonGallery.SmallImage">
+            <summary>
+            Gets or sets a 16x16 image for the button.
+            </summary>
+        </member>
+        <member name="P:Microsoft.WebMatrix.Extensibility.RibbonButtonGallery.LargeImage">
+            <summary>
+            Gets or sets a 32x32 image for the button.
+            </summary>
+        </member>
+        <member name="P:Microsoft.WebMatrix.Extensibility.RibbonButtonGallery.Categories">
+            <summary>
+            Gets a sequence of category instances for the gallery.
+            </summary>
+        </member>
+        <member name="P:Microsoft.WebMatrix.Extensibility.RibbonButtonGallery.GalleryCommand">
+            <summary>
+            Gets the command to invoke when an item is chosen from the gallery.
+            </summary>
+        </member>
+        <member name="P:Microsoft.WebMatrix.Extensibility.RibbonButtonGallery.GalleryCommandId">
+            <summary>
+            Gets or sets the command ID to invoke when an item is chosen from the gallery.
+            </summary>
+        </member>
+        <member name="P:Microsoft.WebMatrix.Extensibility.RibbonButtonGallery.GalleryOpening">
+            <summary>
+            Gets or sets an action to invoke when the gallery is opening.
+            </summary>
+        </member>
+        <member name="P:Microsoft.WebMatrix.Extensibility.RibbonButtonGallery.GalleryClosing">
+            <summary>
+            Gets or sets an action to invoke when the gallery is closing.
+            </summary>
+        </member>
         <member name="T:Microsoft.WebMatrix.Extensibility.RibbonContextualTab">
             <summary>
             Class that represents a contextual tab on the Ribbon.
             </summary>
         </member>
-        <member name="M:Microsoft.WebMatrix.Extensibility.RibbonContextualTab.#ctor(System.String,System.Collections.Generic.IEnumerable{Microsoft.WebMatrix.Extensibility.IRibbonItem})">
+        <member name="M:Microsoft.WebMatrix.Extensibility.RibbonContextualTab.#ctor(System.String,System.Collections.Generic.IEnumerable{Microsoft.WebMatrix.Extensibility.RibbonItem})">
             <summary>
             Initializes a new instance of the RibbonContextualTab class.
             </summary>
             <param name="label">Label for the tab.</param>
             <param name="items">Items in the tab.</param>
+        </member>
+        <member name="M:Microsoft.WebMatrix.Extensibility.RibbonContextualTab.Select">
+            <summary>
+            Asks the app to bring this contextual tab to the front
+            If the tab is invisible this is a no op
+            </summary>
         </member>
         <member name="F:Microsoft.WebMatrix.Extensibility.RibbonContextualTab._isVisible">
             <summary>
@@ -1746,7 +1817,7 @@
         </member>
         <member name="P:Microsoft.WebMatrix.Extensibility.RibbonContextualTab.Items">
             <summary>
-            Gets a sequence of IRibbonItem instances.
+            Gets a sequence of RibbonItem instances.
             </summary>
         </member>
         <member name="P:Microsoft.WebMatrix.Extensibility.RibbonContextualTab.IsVisible">
@@ -1795,17 +1866,6 @@
             <summary>
             Gets a sequence of items in the category.
             </summary>
-            <remarks>
-            Convenience implementation.
-            </remarks>
-        </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.RibbonGalleryCategory.Microsoft#WebMatrix#Extensibility#IRibbonGalleryCategory#Items">
-            <summary>
-            Gets a sequence of items in the category.
-            </summary>
-            <remarks>
-            Interface definition.
-            </remarks>
         </member>
         <member name="P:Microsoft.WebMatrix.Extensibility.RibbonGalleryCategory.ItemTemplate">
             <summary>
@@ -1832,26 +1892,29 @@
             Class that represents a group on the Ribbon.
             </summary>
         </member>
-        <member name="M:Microsoft.WebMatrix.Extensibility.RibbonGroup.#ctor(System.String,System.Collections.Generic.IEnumerable{Microsoft.WebMatrix.Extensibility.IRibbonItem})">
+        <member name="M:Microsoft.WebMatrix.Extensibility.RibbonGroup.#ctor(System.String,System.Collections.Generic.IEnumerable{Microsoft.WebMatrix.Extensibility.RibbonItem})">
             <summary>
             Initializes a new instance of the RibbonGroup class.
             </summary>
             <param name="label">Label for the group.</param>
             <param name="items">Items in the group.</param>
         </member>
+        <member name="M:Microsoft.WebMatrix.Extensibility.RibbonGroup.#ctor(System.String,System.Collections.Generic.IEnumerable{Microsoft.WebMatrix.Extensibility.RibbonItem},System.Windows.Media.ImageSource)">
+            <summary>
+            Initializes a new instance of the RibbonGroup class.
+            </summary>
+            <param name="label">Label for the group.</param>
+            <param name="items">Items in the group.</param>
+            <param name="icon">A 32x32 image for the group.</param>
+        </member>
         <member name="F:Microsoft.WebMatrix.Extensibility.RibbonGroup._isVisible">
             <summary>
             Stores a value indicating whether the group is visible.
             </summary>
         </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.RibbonGroup.Label">
-            <summary>
-            Gets or sets a label for the group.
-            </summary>
-        </member>
         <member name="P:Microsoft.WebMatrix.Extensibility.RibbonGroup.Items">
             <summary>
-            Gets a sequence of IRibbonItem instances.
+            Gets a sequence of RibbonItem instances.
             </summary>
         </member>
         <member name="P:Microsoft.WebMatrix.Extensibility.RibbonGroup.IsVisible">
@@ -1864,37 +1927,40 @@
             Event invoked when a property change value.
             </summary>
         </member>
+        <member name="P:Microsoft.WebMatrix.Extensibility.RibbonGroup.Icon">
+            <summary>
+            Gets a 32x32 icon for the group.
+            </summary>
+            <remarks>
+            The group's icon will only be shown when the group is collapsed due to spacing constraints.
+            </remarks>
+        </member>
         <member name="T:Microsoft.WebMatrix.Extensibility.RibbonMenuButton">
             <summary>
             Class that represents a Ribbon menu-button.
             </summary>
         </member>
-        <member name="M:Microsoft.WebMatrix.Extensibility.RibbonMenuButton.#ctor(System.String,System.Collections.Generic.IEnumerable{Microsoft.WebMatrix.Extensibility.IRibbonButton},System.Windows.Media.ImageSource,System.Windows.Media.ImageSource)">
+        <member name="M:Microsoft.WebMatrix.Extensibility.RibbonMenuButton.#ctor(System.String,System.Collections.Generic.IEnumerable{Microsoft.WebMatrix.Extensibility.RibbonButton},System.Windows.Media.ImageSource,System.Windows.Media.ImageSource)">
             <summary>
             Initializes a new instance of the RibbonMenuButton class.
             </summary>
             <param name="label">Label for the item.</param>
-            <param name="items">Sequence of IRibbonButtons to show when the menu-button is pressed.</param>
+            <param name="items">Sequence of RibbonButtons to show when the menu-button is pressed.</param>
             <param name="smallImage">16x16 image for the button.</param>
             <param name="largeImage">32x32 image for the button.</param>
         </member>
-        <member name="M:Microsoft.WebMatrix.Extensibility.RibbonMenuButton.#ctor(System.String,System.Collections.Generic.IEnumerable{Microsoft.WebMatrix.Extensibility.IRibbonButton},System.Drawing.Bitmap,System.Drawing.Bitmap)">
+        <member name="M:Microsoft.WebMatrix.Extensibility.RibbonMenuButton.#ctor(System.String,System.Collections.Generic.IEnumerable{Microsoft.WebMatrix.Extensibility.RibbonButton},System.Drawing.Bitmap,System.Drawing.Bitmap)">
             <summary>
             Initializes a new instance of the RibbonMenuButton class.
             </summary>
             <param name="label">Label for the item.</param>
-            <param name="items">Sequence of IRibbonButtons to show when the menu-button is pressed.</param>
+            <param name="items">Sequence of RibbonButtons to show when the menu-button is pressed.</param>
             <param name="smallImage">16x16 image for the button.</param>
             <param name="largeImage">32x32 image for the button.</param>
-        </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.RibbonMenuButton.Label">
-            <summary>
-            Gets or sets a label for the item.
-            </summary>
         </member>
         <member name="P:Microsoft.WebMatrix.Extensibility.RibbonMenuButton.Items">
             <summary>
-            Gets a sequence of IRibbonButtons to show when the menu-button is pressed.
+            Gets a sequence of RibbonButtons to show when the menu-button is pressed.
             </summary>
         </member>
         <member name="P:Microsoft.WebMatrix.Extensibility.RibbonMenuButton.SmallImage">
@@ -1968,11 +2034,6 @@
             <param name="smallImage">16x16 image for the button.</param>
             <param name="largeImage">32x32 image for the button.</param>
         </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.RibbonButton.Label">
-            <summary>
-            Gets or sets a label for the item.
-            </summary>
-        </member>
         <member name="P:Microsoft.WebMatrix.Extensibility.RibbonButton.Command">
             <summary>
             Gets or sets the command to invoke when the button is pressed.
@@ -1998,53 +2059,53 @@
             Gets or sets a 32x32 image for the button.
             </summary>
         </member>
-        <member name="M:Microsoft.WebMatrix.Extensibility.RibbonSplitButton.#ctor(System.String,System.Windows.Input.ICommand,System.Object,System.Collections.Generic.IEnumerable{Microsoft.WebMatrix.Extensibility.IRibbonButton},System.Windows.Media.ImageSource,System.Windows.Media.ImageSource)">
+        <member name="M:Microsoft.WebMatrix.Extensibility.RibbonSplitButton.#ctor(System.String,System.Windows.Input.ICommand,System.Object,System.Collections.Generic.IEnumerable{Microsoft.WebMatrix.Extensibility.RibbonButton},System.Windows.Media.ImageSource,System.Windows.Media.ImageSource)">
             <summary>
             Initializes a new instance of the RibbonSplitButton class.
             </summary>
             <param name="label">Label for the item.</param>
             <param name="command">Command to invoke when the button is pressed.</param>
             <param name="commandParameter">Command parameter for command.</param>
-            <param name="items">Sequence of IRibbonButtons to show when the split-button is expanded.</param>
+            <param name="items">Sequence of RibbonButtons to show when the split-button is expanded.</param>
             <param name="smallImage">16x16 image for the button.</param>
             <param name="largeImage">32x32 image for the button.</param>
         </member>
-        <member name="M:Microsoft.WebMatrix.Extensibility.RibbonSplitButton.#ctor(System.String,Microsoft.WebMatrix.Extensibility.ICommandId,System.Object,System.Collections.Generic.IEnumerable{Microsoft.WebMatrix.Extensibility.IRibbonButton},System.Windows.Media.ImageSource,System.Windows.Media.ImageSource)">
+        <member name="M:Microsoft.WebMatrix.Extensibility.RibbonSplitButton.#ctor(System.String,Microsoft.WebMatrix.Extensibility.ICommandId,System.Object,System.Collections.Generic.IEnumerable{Microsoft.WebMatrix.Extensibility.RibbonButton},System.Windows.Media.ImageSource,System.Windows.Media.ImageSource)">
             <summary>
             Initializes a new instance of the RibbonSplitButton class.
             </summary>
             <param name="label">Label for the item.</param>
             <param name="commandId">Command ID to invoke when the button is pressed</param>
             <param name="commandParameter">Command parameter for commandId.</param>
-            <param name="items">Sequence of IRibbonButtons to show when the split-button is expanded.</param>
+            <param name="items">Sequence of RibbonButtons to show when the split-button is expanded.</param>
             <param name="smallImage">16x16 image for the button.</param>
             <param name="largeImage">32x32 image for the button.</param>
         </member>
-        <member name="M:Microsoft.WebMatrix.Extensibility.RibbonSplitButton.#ctor(System.String,System.Windows.Input.ICommand,System.Object,System.Collections.Generic.IEnumerable{Microsoft.WebMatrix.Extensibility.IRibbonButton},System.Drawing.Bitmap,System.Drawing.Bitmap)">
+        <member name="M:Microsoft.WebMatrix.Extensibility.RibbonSplitButton.#ctor(System.String,System.Windows.Input.ICommand,System.Object,System.Collections.Generic.IEnumerable{Microsoft.WebMatrix.Extensibility.RibbonButton},System.Drawing.Bitmap,System.Drawing.Bitmap)">
             <summary>
             Initializes a new instance of the RibbonSplitButton class.
             </summary>
             <param name="label">Label for the item.</param>
             <param name="command">Command to invoke when the button is pressed.</param>
             <param name="commandParameter">Command parameter for commandId.</param>
-            <param name="items">Sequence of IRibbonButtons to show when the split-button is expanded.</param>
+            <param name="items">Sequence of RibbonButtons to show when the split-button is expanded.</param>
             <param name="smallImage">16x16 image for the button.</param>
             <param name="largeImage">32x32 image for the button.</param>
         </member>
-        <member name="M:Microsoft.WebMatrix.Extensibility.RibbonSplitButton.#ctor(System.String,Microsoft.WebMatrix.Extensibility.ICommandId,System.Object,System.Collections.Generic.IEnumerable{Microsoft.WebMatrix.Extensibility.IRibbonButton},System.Drawing.Bitmap,System.Drawing.Bitmap)">
+        <member name="M:Microsoft.WebMatrix.Extensibility.RibbonSplitButton.#ctor(System.String,Microsoft.WebMatrix.Extensibility.ICommandId,System.Object,System.Collections.Generic.IEnumerable{Microsoft.WebMatrix.Extensibility.RibbonButton},System.Drawing.Bitmap,System.Drawing.Bitmap)">
             <summary>
             Initializes a new instance of the RibbonSplitButton class.
             </summary>
             <param name="label">Label for the item.</param>
             <param name="commandId">Command ID to invoke when the button is pressed</param>
             <param name="commandParameter">Command parameter for commandId.</param>
-            <param name="items">Sequence of IRibbonButtons to show when the split-button is expanded.</param>
+            <param name="items">Sequence of RibbonButtons to show when the split-button is expanded.</param>
             <param name="smallImage">16x16 image for the button.</param>
             <param name="largeImage">32x32 image for the button.</param>
         </member>
         <member name="P:Microsoft.WebMatrix.Extensibility.RibbonSplitButton.Items">
             <summary>
-            Gets a sequence of IRibbonButtons to show when the split-button is expanded.
+            Gets a sequence of RibbonButtons to show when the split-button is expanded.
             </summary>
         </member>
         <member name="T:Microsoft.WebMatrix.Extensibility.RibbonSplitButtonGallery">
@@ -2052,7 +2113,7 @@
             Class that represents a Ribbon split-button that expands to a gallery.
             </summary>
         </member>
-        <member name="M:Microsoft.WebMatrix.Extensibility.RibbonSplitButtonGallery.#ctor(System.String,System.Windows.Input.ICommand,Microsoft.WebMatrix.Extensibility.ICommandId,System.Object,System.Windows.Input.ICommand,Microsoft.WebMatrix.Extensibility.ICommandId,System.Collections.Generic.IEnumerable{Microsoft.WebMatrix.Extensibility.IRibbonGalleryCategory},System.Windows.Media.ImageSource,System.Windows.Media.ImageSource)">
+        <member name="M:Microsoft.WebMatrix.Extensibility.RibbonSplitButtonGallery.#ctor(System.String,System.Windows.Input.ICommand,Microsoft.WebMatrix.Extensibility.ICommandId,System.Object,System.Windows.Input.ICommand,Microsoft.WebMatrix.Extensibility.ICommandId,System.Collections.Generic.IEnumerable{Microsoft.WebMatrix.Extensibility.RibbonGalleryCategory},System.Windows.Media.ImageSource,System.Windows.Media.ImageSource)">
             <summary>
             Initializes a new instance of the RibbonSplitButtonGallery class.
             </summary>
@@ -2066,7 +2127,7 @@
             <param name="smallImage">16x16 image for the button.</param>
             <param name="largeImage">32x32 image for the button.</param>
         </member>
-        <member name="M:Microsoft.WebMatrix.Extensibility.RibbonSplitButtonGallery.#ctor(System.String,System.Windows.Input.ICommand,System.Object,System.Windows.Input.ICommand,System.Collections.Generic.IEnumerable{Microsoft.WebMatrix.Extensibility.IRibbonGalleryCategory},System.Windows.Media.ImageSource,System.Windows.Media.ImageSource)">
+        <member name="M:Microsoft.WebMatrix.Extensibility.RibbonSplitButtonGallery.#ctor(System.String,System.Windows.Input.ICommand,System.Object,System.Windows.Input.ICommand,System.Collections.Generic.IEnumerable{Microsoft.WebMatrix.Extensibility.RibbonGalleryCategory},System.Windows.Media.ImageSource,System.Windows.Media.ImageSource)">
             <summary>
             Initializes a new instance of the RibbonSplitButtonGallery class.
             </summary>
@@ -2078,7 +2139,7 @@
             <param name="smallImage">16x16 image for the button.</param>
             <param name="largeImage">32x32 image for the button.</param>
         </member>
-        <member name="M:Microsoft.WebMatrix.Extensibility.RibbonSplitButtonGallery.#ctor(System.String,Microsoft.WebMatrix.Extensibility.ICommandId,System.Object,Microsoft.WebMatrix.Extensibility.ICommandId,System.Collections.Generic.IEnumerable{Microsoft.WebMatrix.Extensibility.IRibbonGalleryCategory},System.Windows.Media.ImageSource,System.Windows.Media.ImageSource)">
+        <member name="M:Microsoft.WebMatrix.Extensibility.RibbonSplitButtonGallery.#ctor(System.String,Microsoft.WebMatrix.Extensibility.ICommandId,System.Object,Microsoft.WebMatrix.Extensibility.ICommandId,System.Collections.Generic.IEnumerable{Microsoft.WebMatrix.Extensibility.RibbonGalleryCategory},System.Windows.Media.ImageSource,System.Windows.Media.ImageSource)">
             <summary>
             Initializes a new instance of the RibbonSplitButtonGallery class.
             </summary>
@@ -2090,7 +2151,7 @@
             <param name="smallImage">16x16 image for the button.</param>
             <param name="largeImage">32x32 image for the button.</param>
         </member>
-        <member name="M:Microsoft.WebMatrix.Extensibility.RibbonSplitButtonGallery.#ctor(System.String,System.Windows.Input.ICommand,System.Object,System.Windows.Input.ICommand,System.Collections.Generic.IEnumerable{Microsoft.WebMatrix.Extensibility.IRibbonGalleryCategory},System.Drawing.Bitmap,System.Drawing.Bitmap)">
+        <member name="M:Microsoft.WebMatrix.Extensibility.RibbonSplitButtonGallery.#ctor(System.String,System.Windows.Input.ICommand,System.Object,System.Windows.Input.ICommand,System.Collections.Generic.IEnumerable{Microsoft.WebMatrix.Extensibility.RibbonGalleryCategory},System.Drawing.Bitmap,System.Drawing.Bitmap)">
             <summary>
             Initializes a new instance of the RibbonSplitButtonGallery class.
             </summary>
@@ -2102,7 +2163,7 @@
             <param name="smallImage">16x16 image for the button.</param>
             <param name="largeImage">32x32 image for the button.</param>
         </member>
-        <member name="M:Microsoft.WebMatrix.Extensibility.RibbonSplitButtonGallery.#ctor(System.String,Microsoft.WebMatrix.Extensibility.ICommandId,System.Object,Microsoft.WebMatrix.Extensibility.ICommandId,System.Collections.Generic.IEnumerable{Microsoft.WebMatrix.Extensibility.IRibbonGalleryCategory},System.Drawing.Bitmap,System.Drawing.Bitmap)">
+        <member name="M:Microsoft.WebMatrix.Extensibility.RibbonSplitButtonGallery.#ctor(System.String,Microsoft.WebMatrix.Extensibility.ICommandId,System.Object,Microsoft.WebMatrix.Extensibility.ICommandId,System.Collections.Generic.IEnumerable{Microsoft.WebMatrix.Extensibility.RibbonGalleryCategory},System.Drawing.Bitmap,System.Drawing.Bitmap)">
             <summary>
             Initializes a new instance of the RibbonSplitButtonGallery class.
             </summary>
@@ -2142,16 +2203,6 @@
         <member name="T:Microsoft.WebMatrix.Extensibility.RibbonToggleButton">
             <summary>
             Class that represents a Ribbon toggle button.
-            </summary>
-        </member>
-        <member name="T:Microsoft.WebMatrix.Extensibility.IRibbonToggleButton">
-            <summary>
-            Interface for representing a toggle button on the Ribbon.
-            </summary>
-        </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IRibbonToggleButton.IsChecked">
-            <summary>
-            Gets or sets a value indicating whether the button is checked (toggled) or not.
             </summary>
         </member>
         <member name="M:Microsoft.WebMatrix.Extensibility.RibbonToggleButton.#ctor(System.String,System.Windows.Input.ICommand,System.Object,System.Windows.Media.ImageSource,System.Windows.Media.ImageSource)">
@@ -2224,10 +2275,13 @@
             Gets a unique ID for the command (within its group).
             </summary>
         </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.ICommandId.Name">
+        <member name="P:Microsoft.WebMatrix.Extensibility.ICommandId.InvariantName">
             <summary>
-            Gets the name of the command (for diagnostic purposes).
+            Gets the invariant name of the command (for diagnostic purposes).
             </summary>
+            <remarks>
+            This value should not be localized.
+            </remarks>
         </member>
         <member name="T:Microsoft.WebMatrix.Extensibility.IEditorWorkspace">
             <summary>
@@ -2415,6 +2469,11 @@
             Show extensions gallery dialog.
             </summary>
         </member>
+        <member name="F:Microsoft.WebMatrix.Extensibility.CommonCommandIds.Ids.InstallProduct">
+            <summary>
+            Invokes the web matrix product installer for the specified product id.
+            </summary>
+        </member>
         <member name="T:Microsoft.WebMatrix.Extensibility.IHostCommands">
             <summary>
             Interface for accessing commands exposed by the host.
@@ -2448,9 +2507,26 @@
             Gets the "exit" command.
             </summary>
         </member>
+        <member name="P:Microsoft.WebMatrix.Extensibility.IHostCommands.OpenFileInEditor">
+            <summary>
+            Gets the "open file in editor" command, parameter is a path to the file
+            </summary>
+        </member>
+        <member name="P:Microsoft.WebMatrix.Extensibility.IHostCommands.Refresh">
+            <summary>
+            Gets the "Refresh" command.
+            Parameter: true, to refresh from the root,
+                       null or false to refresh currently selected items (null/false parameter only applies in the file workspace).
+            </summary>
+        </member>
         <member name="T:Microsoft.WebMatrix.Extensibility.IWebSite">
             <summary>
             Interface for interacting with a web site.
+            </summary>
+        </member>
+        <member name="P:Microsoft.WebMatrix.Extensibility.IWebSite.Name">
+            <summary>
+            Get the name of the web site.
             </summary>
         </member>
         <member name="P:Microsoft.WebMatrix.Extensibility.IWebSite.Uri">
@@ -2476,30 +2552,23 @@
             Get site preferences
             </summary>
         </member>
-        <member name="F:Microsoft.WebMatrix.Extensibility.VSConstants_Ids.VSStd2K">
+        <member name="P:Microsoft.WebMatrix.Extensibility.IWebSite.IsLocal">
+            <summary>
+            Reports if the current WebSite profile openned in WebMatrix is remote or local
+            Returns:
+                true for local
+                false for remote
+                null for no site or profile available
+            </summary>
+        </member>
+        <member name="F:Microsoft.WebMatrix.Extensibility.Editor.VSConstants_Ids.VSStd2K">
             <summary>
             GUID for the 2K command set. This is a set of standard editor commands.
             </summary>
         </member>
-        <member name="T:Microsoft.WebMatrix.Extensibility.VSConstants_Ids.VSStd2KCmdID">
+        <member name="T:Microsoft.WebMatrix.Extensibility.Editor.VSConstants_Ids.VSStd2KCmdID">
             <summary>
             Set of the standard, shared editor commands in StandardCommandSet2k.
-            </summary>
-        </member>
-        <member name="T:Microsoft.WebMatrix.Extensibility.HelpInvokedEventArgs">
-            <summary>
-            Class that represents the event arguments for a help request.
-            </summary>
-        </member>
-        <member name="M:Microsoft.WebMatrix.Extensibility.HelpInvokedEventArgs.#ctor(System.Object)">
-            <summary>
-            Initializes a new instance of the HelpInvokedEventArgs class.
-            </summary>
-            <param name="context">Context for the event.</param>
-        </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.HelpInvokedEventArgs.Context">
-            <summary>
-            Gets a value indicating the context for the help request (such as the focused UI element).
             </summary>
         </member>
         <member name="T:Microsoft.WebMatrix.Extensibility.IWebMatrixHost">
@@ -2509,22 +2578,10 @@
         </member>
         <member name="M:Microsoft.WebMatrix.Extensibility.IWebMatrixHost.GetSiteItem(Microsoft.WebMatrix.Extensibility.HierarchyId)">
             <summary>
-            Gets an ISiteItem from a given HierarchyId
+            Gets an ISiteItem from a HierarchyId.
             </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Microsoft.WebMatrix.Extensibility.IWebMatrixHost.AddRibbonItems(System.Collections.Generic.IEnumerable{Microsoft.WebMatrix.Extensibility.IRibbonItem})">
-            <summary>
-            Adds a sequence of Ribbon items to the Ribbon.
-            </summary>
-            <param name="ribbonItems">Sequence of IRibbonItems.</param>
-        </member>
-        <member name="M:Microsoft.WebMatrix.Extensibility.IWebMatrixHost.AddDashboardItems(System.Collections.Generic.IEnumerable{Microsoft.WebMatrix.Extensibility.IDashboardItem})">
-            <summary>
-            Adds a sequence of dashboard items to the dashboard.
-            </summary>
-            <param name="dashboardItems">Sequence of IDashboardItems.</param>
+            <param name="id">HierarchyId instance.</param>
+            <returns>ISiteItem instance.</returns>
         </member>
         <member name="M:Microsoft.WebMatrix.Extensibility.IWebMatrixHost.ApplyPathProtection(System.Collections.Generic.IEnumerable{Microsoft.WebMatrix.Extensibility.IProtectPathInfo})">
             <summary>
@@ -2535,42 +2592,7 @@
             Resets any protection already in place.
             </remarks>
         </member>
-        <member name="M:Microsoft.WebMatrix.Extensibility.IWebMatrixHost.ShowDialog(System.String,System.Object)">
-            <summary>
-            Shows a modal dialog box with the specified title/content.
-            </summary>
-            <remarks>
-            Buttons for OK/Cancel will be provided unless the content parameter implements
-            IDialogContent (in which case it should invoke the CloseDialog event when complete).
-            </remarks>
-            <param name="title">Title for the dialog.</param>
-            <param name="content">Content for the dialog.</param>
-            <returns>True if OK was pressed or CloseDialog invoked, false if Cancel was pressed, null if an error occurred.</returns>
-        </member>
-        <member name="M:Microsoft.WebMatrix.Extensibility.IWebMatrixHost.ShowDialog(System.String,System.Object,Microsoft.WebMatrix.Extensibility.DialogSize)">
-            <summary>
-            Shows a modal dialog box with the specified title/content/size.
-            </summary>
-            <remarks>
-            Buttons for OK/Cancel will be provided unless the content parameter implements
-            IDialogContent (in which case it should invoke the CloseDialog event when complete).
-            </remarks>
-            <param name="title">Title for the dialog.</param>
-            <param name="content">Content for the dialog.</param>
-            <param name="dialogSize">Size for the dialog.</param>
-            <returns>True if OK was pressed or CloseDialog invoked, false if Cancel was pressed, null if an error occurred.</returns>
-        </member>
-        <member name="M:Microsoft.WebMatrix.Extensibility.IWebMatrixHost.ShowDialog(System.String,System.Object,System.Windows.MessageBoxButton,System.Windows.MessageBoxResult)">
-            <summary>
-            Shows a modal dialog box with the specified title/content/buttons.
-            </summary>
-            <param name="title">Title for the dialog.</param>
-            <param name="content">Content for the dialog.</param>
-            <param name="buttons">Buttons to show.</param>
-            <param name="defaultButton">Default button.</param>
-            <returns>True if OK was pressed or CloseDialog invoked, false if Cancel was pressed, null if an error occurred.</returns>
-        </member>
-        <member name="M:Microsoft.WebMatrix.Extensibility.IWebMatrixHost.ShowDialog(System.String,System.Object,Microsoft.WebMatrix.Extensibility.DialogSize,System.Windows.MessageBoxButton,System.Windows.MessageBoxResult)">
+        <member name="M:Microsoft.WebMatrix.Extensibility.IWebMatrixHost.ShowDialog(System.String,System.Windows.UIElement,Microsoft.WebMatrix.Extensibility.DialogSize,System.Windows.MessageBoxButton,System.Windows.MessageBoxResult,System.Windows.Input.ICommand[])">
             <summary>
             Shows a modal dialog box with the specified title/content/size/buttons.
             </summary>
@@ -2579,13 +2601,28 @@
             <param name="dialogSize">Size for the dialog.</param>
             <param name="buttons">Buttons to show.</param>
             <param name="defaultButton">Default button.</param>
+            <param name="buttonCommands">ICommand instances for each button.</param>
             <returns>True if OK was pressed or CloseDialog invoked, false if Cancel was pressed, null if an error occurred.</returns>
         </member>
-        <member name="M:Microsoft.WebMatrix.Extensibility.IWebMatrixHost.ShowNotification(System.String)">
+        <member name="M:Microsoft.WebMatrix.Extensibility.IWebMatrixHost.ShowDialog(System.String,System.String,Microsoft.WebMatrix.Extensibility.DialogSize,System.Windows.MessageBoxButton,System.Windows.MessageBoxResult,System.Windows.Input.ICommand[])">
             <summary>
-            Shows a notification message for a brief period of time.
+            Shows a modal dialog box with the specified title/content/size/buttons.
             </summary>
-            <param name="message">Message to show.</param>
+            <param name="title">Title for the dialog.</param>
+            <param name="message">Message to be shown in the dialog.</param>
+            <param name="dialogSize">Size for the dialog.</param>
+            <param name="buttons">Buttons to show.</param>
+            <param name="defaultButton">Default button.</param>
+            <param name="buttonCommands">ICommand instances for each button.</param>
+            <returns>True if OK was pressed or CloseDialog invoked, false if Cancel was pressed, null if an error occurred.</returns>
+        </member>
+        <member name="M:Microsoft.WebMatrix.Extensibility.IWebMatrixHost.ShowExceptionMessage(System.String,System.String,System.Exception)">
+            <summary>
+            Shows a message as a result of an exception.
+            </summary>
+            <param name="title">Title for the dialog.</param>
+            <param name="message">Message for the dialog.</param>
+            <param name="exception">Underlying exception.</param>
         </member>
         <member name="M:Microsoft.WebMatrix.Extensibility.IWebMatrixHost.ShowNotification(System.String,System.String,System.Action)">
             <summary>
@@ -2603,17 +2640,18 @@
             <param name="parentWindow">parent window if not the standard webmatrix one</param>
             <returns>path to selected folder, if selection succedded</returns>
         </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.IWebMatrixHost.Name">
+        <member name="M:Microsoft.WebMatrix.Extensibility.IWebMatrixHost.GetExtensionSpecificPreferences(System.Guid)">
             <summary>
-            Gets the user-friendly name of the extension.
+            Provides access to a global preferences access, each extension should pass a unique guid
             </summary>
-            <example>MyExtension</example>
+            <param name="guid">unique preferences identifier</param>
+            <returns>IPreferences object that allows accessing individual preferences</returns>
         </member>
         <member name="P:Microsoft.WebMatrix.Extensibility.IWebMatrixHost.Version">
             <summary>
-            Gets the user-friendly version of the extension.
+            Gets the user-friendly version of the host.
             </summary>
-            <example>v1.0</example>
+            <example>2.0 Beta</example>
         </member>
         <member name="P:Microsoft.WebMatrix.Extensibility.IWebMatrixHost.Workspace">
             <summary>
@@ -2625,23 +2663,14 @@
             Event that is invoked when the current workspace changes.
             </summary>
         </member>
-        <member name="E:Microsoft.WebMatrix.Extensibility.IWebMatrixHost.TreeItemRemoved">
-            <summary>
-            Event that is invoked when an item is removed from the file tree.
-            Indiciates that any caching related to that file might not be necessary anymore
-            and references may be removed.
-            </summary>
-        </member>
-        <member name="E:Microsoft.WebMatrix.Extensibility.IWebMatrixHost.TreeItemCreated">
-            <summary>
-            Event that is invoked when an item is add to the file tree.
-            At that point a single icon and tooltip can be set
-            if multiple handlers are assigned, the last one will win.
-            </summary>
-        </member>
         <member name="P:Microsoft.WebMatrix.Extensibility.IWebMatrixHost.Workspaces">
             <summary>
             Gets a collection of available workspaces.
+            </summary>
+        </member>
+        <member name="P:Microsoft.WebMatrix.Extensibility.IWebMatrixHost.DefaultWebSitePath">
+            <summary>
+            The default path for storing web sites.
             </summary>
         </member>
         <member name="P:Microsoft.WebMatrix.Extensibility.IWebMatrixHost.WebSite">
@@ -2654,6 +2683,22 @@
             Event that is invoked when the current web site changes.
             </summary>
         </member>
+        <member name="E:Microsoft.WebMatrix.Extensibility.IWebMatrixHost.TreeItemCreated">
+            <summary>
+            Event invoked when an item is add to the file tree.
+            </summary>
+            <remarks>
+            An icon and tooltip can be set; only the last assignment takes effect.
+            </remarks>
+        </member>
+        <member name="E:Microsoft.WebMatrix.Extensibility.IWebMatrixHost.TreeItemRemoved">
+            <summary>
+            Event invoked when an item is removed from the file tree.
+            </summary>
+            <remarks>
+            Any references to that file can be removed.
+            </remarks>
+        </member>
         <member name="P:Microsoft.WebMatrix.Extensibility.IWebMatrixHost.HostCommands">
             <summary>
             Gets an object that exposes commands supported by the host.
@@ -2662,11 +2707,6 @@
         <member name="E:Microsoft.WebMatrix.Extensibility.IWebMatrixHost.ContextMenuOpening">
             <summary>
             Event that is invoked when the user opens a context menu for an item in the tree view.
-            </summary>
-        </member>
-        <member name="E:Microsoft.WebMatrix.Extensibility.IWebMatrixHost.HelpInvoked">
-            <summary>
-            Event that is invoked when the user initiates a help request.
             </summary>
         </member>
         <member name="T:Microsoft.WebMatrix.Extensibility.TaskTabItemDescriptor">
@@ -2708,30 +2748,14 @@
             PropertyChanged event from INotifyPropertyInterface
             </summary>
         </member>
-        <member name="T:Microsoft.WebMatrix.Extensibility.TreeViewItemCreatedEventArgs">
+        <member name="T:Microsoft.WebMatrix.Extensibility.TreeItemEventArgs">
             <summary>
-            Eventargs for the event fired when an item is added to the tree
+            Event data associated with tree items being added and removed.
             </summary>
         </member>
-        <member name="M:Microsoft.WebMatrix.Extensibility.TreeViewItemCreatedEventArgs.#ctor">
+        <member name="P:Microsoft.WebMatrix.Extensibility.TreeItemEventArgs.HierarchyId">
             <summary>
-            Constructor
-            </summary>
-        </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.TreeViewItemCreatedEventArgs.HierarchyId">
-            <summary>
-            HierachyId used to find the SiteItem from the WebMatrixHost
-            </summary>
-        </member>
-        <member name="T:Microsoft.WebMatrix.Extensibility.TreeViewItemRemovedEventArgs">
-            <summary>
-            EventArgs for the event where an item is removed from the WebMatrix tree
-            </summary>
-        </member>
-        <member name="P:Microsoft.WebMatrix.Extensibility.TreeViewItemRemovedEventArgs.HierarchyId">
-            <summary>
-            Item that was removed from the tree, caching of any info for that item might
-            not be necessary anymore
+            Gets a HierachyId used to find the SiteItem from the WebMatrixHost
             </summary>
         </member>
         <member name="T:Microsoft.WebMatrix.Extensibility.Utility">

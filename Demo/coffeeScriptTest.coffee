@@ -33,4 +33,3 @@ setTimeout(() ->
     document.getElementsByClassName('coffeeBox')[0].innerHTML = 'hello from the world of coffeeScript!!!'
   , 1500);
 
-   
