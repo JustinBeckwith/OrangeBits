@@ -14,6 +14,7 @@ using Microsoft.WebMatrix.Extensibility;
 using Microsoft.WebMatrix.Extensibility.Editor;
 
 using OrangeBits.Compilers;
+using System.Windows;
 
 namespace OrangeBits
 {
@@ -161,6 +162,7 @@ namespace OrangeBits
 			AddCompileMenu(e);
 			AddMinifyMenu(e);
 			AddOptimizeMenu(e);
+			AddCopyDataURIMenu(e);
 		}
 
 		#endregion
@@ -288,6 +290,39 @@ namespace OrangeBits
 			}
 		}
 		#endregion
+
+		#region AddCopyDataURIMenu
+		/// <summary>
+		/// If the selected file can be compressed to a data uri, this will place it on the clipboard
+		/// </summary>
+		/// <param name="e"></param>
+		protected void AddCopyDataURIMenu(ContextMenuOpeningEventArgs e)
+		{			
+			if (e.Items.Count == 1) {
+				var item = e.Items.First();
+				if (item is ISiteFile) {
+					var path = (item as ISiteFile).Path;
+					if (OrangeCompiler.CanGetDataURI(path))
+					{						
+						var menuItem = new ContextMenuItem("Copy Data URI", null, new DelegateCommand((filePath) => {
+							var scheduler = TaskScheduler.FromCurrentSynchronizationContext();
+							Task.Factory.StartNew(() =>
+							{
+								var data = "data:image/" +
+								Path.GetExtension(filePath as string).Replace(".", "") +
+								";base64," +
+								Convert.ToBase64String(File.ReadAllBytes(filePath as string));
+								return data;
+							}).ContinueWith((x) => {
+								Clipboard.SetText(x.Result);
+							}, scheduler);							
+						}), path);
+						e.AddMenuItem(menuItem);
+					}
+				}
+			}							
+		}
+		#endregion		
 
 		#region AddJob
 		/// <summary>
