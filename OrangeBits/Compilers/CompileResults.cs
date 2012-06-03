@@ -28,6 +28,16 @@ namespace OrangeBits.Compilers
 		/// <summary>
 		/// new compiled output file path
 		/// </summary>
-		public string OutputPath { get; set; }
+		public string OutputPath { get; set; }	
+
+		/// <summary>
+		/// the short message that will be showed in the notification bar
+		/// </summary>
+		public string Message { get; set; }
+
+		/// <summary>
+		/// the long description of the action result (used for copy details)
+		/// </summary>
+		public string Details { get; set;  }
 	}
 }

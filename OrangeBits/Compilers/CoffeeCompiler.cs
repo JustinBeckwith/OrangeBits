@@ -13,7 +13,7 @@ namespace OrangeBits.Compilers
 {
     public class CoffeeCompiler : ICompiler
     {       
-        public void Compile(string inPath, string outPath)
+        public CompileResults Compile(string inPath, string outPath)
         {
             CoffeeScriptCompiler compiler = new CoffeeScriptCompiler(new SassAndCoffee.Core.InstanceProvider<IJavaScriptRuntime>(() => new IEJavaScriptRuntime()));
             using (StreamReader sr = new StreamReader(inPath))
@@ -26,6 +26,7 @@ namespace OrangeBits.Compilers
                     sw.Write(output);
                 }
             }
+			return null;
         }
     }
 }

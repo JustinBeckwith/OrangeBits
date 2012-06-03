@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
@@ -7,6 +8,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.Security.Principal;
+using System.Linq;
 
 using Microsoft.WebMatrix.Extensibility;
 using Microsoft.WebMatrix.Extensibility.Editor;
@@ -27,7 +29,13 @@ namespace OrangeBits
 		//
 		//--------------------------------------------------------------------------
 
-		#region Variables        
+		#region Variables
+
+		/// <summary>
+		/// unique identifier for this extension
+		/// </summary>
+		private Guid ExtensionId = Guid.Parse("ee0fff40-b3f5-473b-9149-aa31bb0f90c3");
+
 		/// <summary>
 		/// item that monitors the file system for changes to supported file types by extension
 		/// </summary>
@@ -150,9 +158,23 @@ namespace OrangeBits
 		/// <param name="e"></param>
 		protected void host_ContextMenuOpening(object sender, ContextMenuOpeningEventArgs e)
 		{
+			AddCompileMenu(e);
+			AddMinifyMenu(e);
+			AddOptimizeMenu(e);
+		}
+
+		#endregion
+
+		#region AddCompileMenu
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="e"></param>
+		protected void AddCompileMenu(ContextMenuOpeningEventArgs e)
+		{
 			// we only show the context menu if every item selected in the tree is valid to be compiled 
-			IList<OrangeJob> jobs = new List<OrangeJob>();
-			var showCompile = e.Items.Count > 0;
+			var jobs = new List<OrangeJob>();
+			var showMenu = e.Items.Count > 0;
 			foreach (ISiteItem item in e.Items)
 			{
 				var fsi = item as ISiteFileSystemItem;
@@ -160,7 +182,7 @@ namespace OrangeBits
 				{
 					if (!OrangeCompiler.CanCompile(fsi.Path))
 					{
-						showCompile = false;
+						showMenu = false;
 						break;
 					}
 					else
@@ -174,13 +196,22 @@ namespace OrangeBits
 			}
 
 			// if all of the files in the list are valid, show the compile option
-			if (showCompile)
+			if (showMenu)
 			{
 				var menuItem = new ContextMenuItem("Compile", null, new DelegateCommand(new Action<object>(AddJob)), jobs);
 				e.AddMenuItem(menuItem);
 			}
+		}
+		#endregion
 
-			jobs = new List<OrangeJob>();
+		#region AddMinifyMenu
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="e"></param>
+		protected void AddMinifyMenu(ContextMenuOpeningEventArgs e)
+		{
+			var jobs = new List<OrangeJob>();
 			var showMinify = e.Items.Count > 0;
 			foreach (ISiteItem item in e.Items)
 			{
@@ -208,7 +239,54 @@ namespace OrangeBits
 				e.AddMenuItem(menuItem);
 			}
 		}
+		#endregion
 
+		#region AddOptimizeMenu
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="e"></param>
+		protected void AddOptimizeMenu(ContextMenuOpeningEventArgs e)
+		{
+			var jobs = new List<OrangeJob>();
+			foreach (ISiteItem item in e.Items)
+			{
+				var fsi = item as ISiteFileSystemItem;
+				if (fsi != null)
+				{
+					if (fsi is ISiteFolder)
+					{
+						// get all of the pngs under the selected path and add a job
+						var dir = new DirectoryInfo((fsi as ISiteFolder).Path);
+						var files = OrangeCompiler.supportedOptimizeExtensions.SelectMany(x => dir.GetFiles("*" + x, SearchOption.AllDirectories));
+						
+						foreach (var f in files)
+						{
+							jobs.Add(new OrangeJob()
+							{
+								Path = f.FullName,
+								Type = OrangeJob.JobType.Optimize
+							});
+						}
+					}
+					else if (OrangeCompiler.CanOptimize(fsi.Path))
+					{
+						jobs.Add(new OrangeJob()
+						{
+							Path = fsi.Path,
+							Type = OrangeJob.JobType.Optimize
+						});
+					}
+				}
+			}
+
+			if (jobs.Count > 0)
+			{
+				var tail = jobs.Count > 1 ? "s" : "";
+				var menuItem = new ContextMenuItem("Optimize Image" + tail, null, new DelegateCommand(new Action<object>(AddJob)), jobs);
+				e.AddMenuItem(menuItem);
+			}
+		}
 		#endregion
 
 		#region AddJob

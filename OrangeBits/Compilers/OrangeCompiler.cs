@@ -18,6 +18,7 @@ namespace OrangeBits.Compilers
 		/// </summary>
 		public static string[] supportedCompileExtensions = new string[] { ".less", ".sass", ".scss", ".coffee" };
 		public static string[] supportedMinifyExtensions = new string[] { ".js", ".css" };
+		public static string[] supportedOptimizeExtensions = new string[] { ".png", ".bmp", ".gif" };
 
 		#endregion
 
@@ -44,6 +45,19 @@ namespace OrangeBits.Compilers
 		{
 			FileInfo f = new FileInfo(path);
 			return (OrangeCompiler.supportedMinifyExtensions.Contains(f.Extension.ToLower()));
+		}
+		#endregion
+
+		#region CanOptimize
+		/// <summary>
+		/// check if a file at the given path is a supported type 
+		/// </summary>
+		/// <param name="path"></param>
+		/// <returns></returns>
+		public static bool CanOptimize(string path)
+		{
+			FileInfo f = new FileInfo(path);
+			return (OrangeCompiler.supportedOptimizeExtensions.Contains(f.Extension.ToLower()));
 		}
 		#endregion
 
@@ -93,6 +107,9 @@ namespace OrangeBits.Compilers
 				case OrangeJob.JobType.Minify:
 					outExt = (f.Extension.ToLower() == ".css") ? ".min.css" : ".min.js";
 					break;
+				case OrangeJob.JobType.Optimize:
+					outExt = f.Extension.ToLower();
+					break;
 			}
 
 			
@@ -114,6 +131,16 @@ namespace OrangeBits.Compilers
 				case ".coffee":
 					compiler = new CoffeeCompiler();                    
 					break;
+				case ".png":
+				case ".gif":
+				case ".tiff":
+				case ".bmp":
+					compiler = new PNGCompressor();
+					break;
+				case ".jpg":
+				case ".jpeg":
+					compiler = new JPGCompressor();
+					break;
 				default:
 					throw new NotImplementedException();
 			}
@@ -122,15 +149,20 @@ namespace OrangeBits.Compilers
 			outPath += outExt;
 			bool exists = File.Exists(outPath);
 
-			compiler.Compile(job.Path, outPath);
-			
-			return new CompileResults()
+			var results = compiler.Compile(job.Path, outPath);
+			if (results == null)
 			{
-				Success = true,
-				InputPath = job.Path,
-				OutputPath = outPath,
-				IsNewFile = !exists
-			};
+				results = new CompileResults()
+				{
+					Success = true,
+					InputPath = job.Path,
+					OutputPath = outPath,
+					IsNewFile = !exists,
+					Message = "Compiled"
+				};
+			}
+			return results;
+			
 		}
 		#endregion
 	}

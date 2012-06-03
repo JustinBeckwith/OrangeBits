@@ -11,7 +11,7 @@ namespace OrangeBits.Compilers
 {
     public class SassCompiler : ICompiler
     {
-        public void Compile(string inPath, string outPath)
+        public CompileResults Compile(string inPath, string outPath)
         {
             SassAndCoffee.Ruby.Sass.SassCompiler compiler = new SassAndCoffee.Ruby.Sass.SassCompiler();
             string output = compiler.Compile(inPath, false, null);
@@ -20,6 +20,7 @@ namespace OrangeBits.Compilers
                 sw.WriteLine(OrangeBits.GetHeader(inPath));
                 sw.Write(output);
             }
+			return null;
         }
     }
 }

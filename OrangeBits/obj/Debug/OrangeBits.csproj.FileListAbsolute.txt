@@ -57,3 +57,4 @@ C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\EcmaScript.NET.modi
 C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\Yahoo.Yui.Compressor.dll
 C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\ComImports.ActiveScript.pdb
 C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\ComImports.JavaScriptEngines.pdb
+C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\Tools\optipng.exe

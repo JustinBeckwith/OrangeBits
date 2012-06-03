@@ -44,3 +44,4 @@ C:\Users\justbe\Dropbox\Code\OrangeBits\UnitTests\obj\Debug\UnitTests.pdb
 C:\Users\justbe\Dropbox\Code\OrangeBits\UnitTests\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\justbe\Dropbox\Code\OrangeBits\UnitTests\bin\Debug\Yahoo.Yui.Compressor.dll
 C:\Users\justbe\Dropbox\Code\OrangeBits\UnitTests\bin\Debug\EcmaScript.NET.modified.dll
+C:\Users\justbe\Dropbox\Code\OrangeBits\UnitTests\bin\Debug\Tools\optipng.exe

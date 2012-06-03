@@ -13,7 +13,8 @@ namespace OrangeBits
 		public enum JobType
 		{
 			Compile,
-			Minify
+			Minify,
+			Optimize
 		}
 
 		public JobType Type { get; set; }

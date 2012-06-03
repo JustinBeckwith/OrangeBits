@@ -9,20 +9,21 @@ using Yahoo.Yui.Compressor;
 
 namespace OrangeBits.Compilers
 {
-    public class CssMinifier : ICompiler
-    {       
-        public void Compile(string inPath, string outPath)
-        {
-            using (StreamReader sr = new StreamReader(inPath))
-            {               
-                string content = sr.ReadToEnd();
-                string output = CssCompressor.Compress(content);
-                using (StreamWriter sw = new StreamWriter(outPath))
-                {
-                    //sw.WriteLine(OrangeBits.GetHeader(inPath));
-                    sw.Write(output);
-                }
-            }
-        }
-    }
+	public class CssMinifier : ICompiler
+	{       
+		public CompileResults Compile(string inPath, string outPath)
+		{
+			using (StreamReader sr = new StreamReader(inPath))
+			{               
+				string content = sr.ReadToEnd();
+				string output = CssCompressor.Compress(content);
+				using (StreamWriter sw = new StreamWriter(outPath))
+				{
+					//sw.WriteLine(OrangeBits.GetHeader(inPath));
+					sw.Write(output);
+				}
+			}
+			return null;
+		}
+	}
 }

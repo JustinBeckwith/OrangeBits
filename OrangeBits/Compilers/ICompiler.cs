@@ -7,6 +7,6 @@ namespace OrangeBits.Compilers
 {
 	interface ICompiler
 	{
-		void Compile(string inPath, string outPath);
+		CompileResults Compile(string inPath, string outPath);
 	}
 }

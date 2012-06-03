@@ -7,7 +7,7 @@ namespace OrangeBits.Compilers
 {
     public class StylusCompiler : ICompiler
     {
-        public void Compile(string inPath, string outPath)
+        public CompileResults Compile(string inPath, string outPath)
         {
             throw new NotImplementedException();
         }
