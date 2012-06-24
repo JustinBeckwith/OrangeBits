@@ -111,7 +111,14 @@
     <Compile Include="Compilers\StylusCompiler.cs" />
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="OrangeJob.cs" />
+    <Compile Include="PrefUtility.cs" />
     <Compile Include="PrefKeys.cs" />
+    <Compile Include="UI\OptionsUI.xaml.cs">
+      <DependentUpon>OptionsUI.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\OptionViewModel.cs" />
+    <Compile Include="UI\OrangeCheckbox.cs" />
+    <Compile Include="UI\ViewModelBase.cs" />
     <Compile Include="WebMatrixExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Worker.cs" />
@@ -125,14 +132,20 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <Page Include="UI\OptionsUI.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if not exist "$(USERPROFILE)\AppData\Local\Microsoft\WebMatrix\Extensions\20RC\$(TargetName)" md "$(USERPROFILE)\AppData\Local\Microsoft\WebMatrix\Extensions\20RC\$(TargetName)"
-copy "$(TargetDir)*" "$(USERPROFILE)\AppData\Local\Microsoft\WebMatrix\Extensions\20RC\$(TargetName)" &gt; NUL</PostBuildEvent>
+    <PostBuildEvent>if not exist "$(USERPROFILE)\AppData\Local\Microsoft\WebMatrix\Extensions\20\$(TargetName)" md "$(USERPROFILE)\AppData\Local\Microsoft\WebMatrix\Extensions\20\$(TargetName)"
+xcopy /E "$(TargetDir)*" "$(USERPROFILE)\AppData\Local\Microsoft\WebMatrix\Extensions\20\$(TargetName)" &gt; NUL</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>if exist "$(TEMP)\WebMatrix.crash.info" del "$(TEMP)\WebMatrix.crash.info"
-if exist "$(USERPROFILE)\AppData\Local\Microsoft\WebMatrix\Extensions\20RC\DisabledExtensions" del "$(USERPROFILE)\AppData\Local\Microsoft\WebMatrix\Extensions\20RC\DisabledExtensions"</PreBuildEvent>
+if exist "$(USERPROFILE)\AppData\Local\Microsoft\WebMatrix\Extensions\20\DisabledExtensions" del "$(USERPROFILE)\AppData\Local\Microsoft\WebMatrix\Extensions\20\DisabledExtensions"</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

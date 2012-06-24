@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="OrangeBits.UI.OptionsUI"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+			 xmlns:r="clr-namespace:OrangeBits.UI"
+			 mc:Ignorable="d" 
+			 d:DesignHeight="300" d:DesignWidth="300">
+	<UserControl.Resources>
+		<Style TargetType="r:OrangeCheckbox">
+			<Setter Property="Margin" Value="5" />
+		</Style>
+	</UserControl.Resources>
+	<StackPanel>
+		<Grid Margin="0 20 0 20">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="300" />
+			</Grid.ColumnDefinitions>
+			<Label Grid.Row="0" Grid.Column="0" Content="Path:"/>
+			<TextBox Grid.Column="1" Grid.Row="0" Margin="3" Text="{Binding Path=CombinedPath, Mode=OneWay}" IsReadOnly="True" />
+		</Grid>
+		<r:OrangeCheckbox IsThreeState="True"  Content="Auto Compile LESS" IsChecked="{Binding Path=AutoCompileLess}" ToolTip="Automatically compile all *.less files as they are changed"  />
+		<r:OrangeCheckbox IsThreeState="True" Content="Auto Compile Sass" IsChecked="{Binding Path=AutoCompileSass}" ToolTip="Automatically compile all *.sass and *.scss files as they are changed" />
+		<r:OrangeCheckbox IsThreeState="True" Content="Auto Compile CoffeeScript" IsChecked="{Binding Path=AutoCompileCoffee}" ToolTip="Automatically compile all *.coffe files as they are changed" />
+		<r:OrangeCheckbox IsThreeState="True" Content="Auto Minify CSS" IsChecked="{Binding Path=AutoMinifyCSS}" ToolTip="Automatically minify all *.css files as they are changed" />
+		<r:OrangeCheckbox IsThreeState="True" Content="Auto Minify JS" IsChecked="{Binding Path=AutoMinifyJS}" ToolTip="Automatically compile all *.js files as they are changed" />
+	</StackPanel>
+</UserControl>

@@ -22,9 +22,9 @@ namespace OrangeBits.Compilers
 		public static string[] supportedDataURIExtensions = new string[] { ".png", ".bmp", ".gif", ".jpg", ".jpeg" };
 
 		#endregion
-
-		#region CanCompile
-		/// <summary>
+        
+        #region CanCompile
+        /// <summary>
 		/// check if a file at the given path is a supported type 
 		/// </summary>
 		/// <param name="path"></param>

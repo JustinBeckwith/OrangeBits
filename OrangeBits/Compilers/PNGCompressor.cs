@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
+using System.Reflection;
 using OrangeBits;
 
 namespace OrangeBits.Compilers
@@ -17,7 +19,7 @@ namespace OrangeBits.Compilers
 			info.FileName = "cmd.exe";
 			info.WindowStyle = ProcessWindowStyle.Hidden;
 			info.CreateNoWindow = true;
-			info.Arguments = "/c .\\Tools\\optipng.exe -clobber \"" + inPath + "\"";
+            info.Arguments = "/c " + Directory.GetParent(Assembly.GetExecutingAssembly().Location) + "\\Tools\\optipng.exe -clobber \"" + inPath + "\"";
 			info.RedirectStandardError = true;
 
 			// Use Process for the application.
