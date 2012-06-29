@@ -28,12 +28,13 @@ C:\Users\justbe.REDMOND.000\Dropbox\Code\OrangeBits\UnitTests\bin\Debug\SassAndC
 C:\Users\justbe\Dropbox\Code\OrangeBits\UnitTests\bin\Debug\Tools\optipng.exe
 C:\Users\justbe\Dropbox\Code\OrangeBits\UnitTests\bin\Debug\UnitTests.dll
 C:\Users\justbe\Dropbox\Code\OrangeBits\UnitTests\bin\Debug\UnitTests.pdb
+C:\Users\justbe\Dropbox\Code\OrangeBits\UnitTests\bin\Debug\dotless.ClientOnly.dll
 C:\Users\justbe\Dropbox\Code\OrangeBits\UnitTests\bin\Debug\OrangeBits.dll
+C:\Users\justbe\Dropbox\Code\OrangeBits\UnitTests\bin\Debug\dotless.Core.dll
 C:\Users\justbe\Dropbox\Code\OrangeBits\UnitTests\bin\Debug\Microsoft.WebMatrix.Extensibility.dll
 C:\Users\justbe\Dropbox\Code\OrangeBits\UnitTests\bin\Debug\SassAndCoffee.JavaScript.dll
 C:\Users\justbe\Dropbox\Code\OrangeBits\UnitTests\bin\Debug\SassAndCoffee.Core.dll
 C:\Users\justbe\Dropbox\Code\OrangeBits\UnitTests\bin\Debug\Yahoo.Yui.Compressor.dll
-C:\Users\justbe\Dropbox\Code\OrangeBits\UnitTests\bin\Debug\dotless.Core.dll
 C:\Users\justbe\Dropbox\Code\OrangeBits\UnitTests\bin\Debug\SassAndCoffee.Ruby.dll
 C:\Users\justbe\Dropbox\Code\OrangeBits\UnitTests\bin\Debug\EcmaScript.NET.modified.dll
 C:\Users\justbe\Dropbox\Code\OrangeBits\UnitTests\bin\Debug\Microsoft.Scripting.dll

@@ -1,0 +1,26 @@
+@import "importTest2.less"; 
+
+@green: #00FF00;
+@margin: 16px;
+@purple: #7D26CD; 
+ 
+html {
+    color: @titleColor;
+}
+
+.lessBox {
+  background-color: lighten(@green, 45%);
+  border-color: @green;
+  color: darken(@green, 9%);
+  padding: @margin / 2;
+  margin: @margin / 2;
+} 
+
+.coffeeBox {
+  background-color: lighten(@purple, 35%);
+  border-color: @purple;
+  color: darken(@purple, 12%);
+  padding: @margin / 2;
+  margin: @margin / 2;
+}
+ 

@@ -23,10 +23,15 @@
 			<Label Grid.Row="0" Grid.Column="0" Content="Path:"/>
 			<TextBox Grid.Column="1" Grid.Row="0" Margin="3" Text="{Binding Path=CombinedPath, Mode=OneWay}" IsReadOnly="True" />
 		</Grid>
-		<r:OrangeCheckbox IsThreeState="True"  Content="Auto Compile LESS" IsChecked="{Binding Path=AutoCompileLess}" ToolTip="Automatically compile all *.less files as they are changed"  />
-		<r:OrangeCheckbox IsThreeState="True" Content="Auto Compile Sass" IsChecked="{Binding Path=AutoCompileSass}" ToolTip="Automatically compile all *.sass and *.scss files as they are changed" />
-		<r:OrangeCheckbox IsThreeState="True" Content="Auto Compile CoffeeScript" IsChecked="{Binding Path=AutoCompileCoffee}" ToolTip="Automatically compile all *.coffe files as they are changed" />
-		<r:OrangeCheckbox IsThreeState="True" Content="Auto Minify CSS" IsChecked="{Binding Path=AutoMinifyCSS}" ToolTip="Automatically minify all *.css files as they are changed" />
-		<r:OrangeCheckbox IsThreeState="True" Content="Auto Minify JS" IsChecked="{Binding Path=AutoMinifyJS}" ToolTip="Automatically compile all *.js files as they are changed" />
-	</StackPanel>
+        <GroupBox Header="Options">
+            <StackPanel Margin="5">
+		        <r:OrangeCheckbox IsThreeState="True"  Content="Auto Compile LESS" IsChecked="{Binding Path=AutoCompileLess}" ToolTip="Automatically compile all *.less files as they are changed"  />
+		        <r:OrangeCheckbox IsThreeState="True" Content="Auto Compile Sass" IsChecked="{Binding Path=AutoCompileSass}" ToolTip="Automatically compile all *.sass and *.scss files as they are changed" />
+		        <r:OrangeCheckbox IsThreeState="True" Content="Auto Compile CoffeeScript" IsChecked="{Binding Path=AutoCompileCoffee}" ToolTip="Automatically compile all *.coffe files as they are changed" />
+		        <r:OrangeCheckbox IsThreeState="True" Content="Auto Minify CSS" IsChecked="{Binding Path=AutoMinifyCSS}" ToolTip="Automatically minify all *.css files as they are changed" />
+		        <r:OrangeCheckbox IsThreeState="True" Content="Auto Minify JS" IsChecked="{Binding Path=AutoMinifyJS}" ToolTip="Automatically compile all *.js files as they are changed" />
+            </StackPanel>
+        </GroupBox>        
+        <CheckBox Content="Overwrite child settings" IsChecked="{Binding Path=OverwriteChildSettings}" ToolTip="Overwrite any options set on child nodes in the file tree" Margin="0 10 0 0" />
+    </StackPanel>
 </UserControl>

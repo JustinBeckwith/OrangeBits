@@ -8,11 +8,19 @@ using Microsoft.WebMatrix.Extensibility;
 using Microsoft.WebMatrix.Extensibility.Editor;
 using System.IO;
 using System.Reflection;
+using OrangeBits.UI;
+using System.ComponentModel;
 
 namespace OrangeBits
 {
     public class PrefUtility
     {
+        //--------------------------------------------------------------------------
+        //
+        //	Properties
+        //
+        //--------------------------------------------------------------------------
+
         #region Properties
 
         /// <summary>
@@ -33,7 +41,11 @@ namespace OrangeBits
         #endregion
 
 
-        
+        //--------------------------------------------------------------------------
+        //
+        //	Methods
+        //
+        //--------------------------------------------------------------------------
 
 
         #region getPathKey
@@ -56,11 +68,9 @@ namespace OrangeBits
         /// Get the preference value for a given property and path, walking up the tree
         /// </summary>
         /// <param name="item"></param>
-        /// <param name="prefs"></param>
         /// <param name="prop"></param>
-        /// <param name="def"></param>
         /// <returns></returns>
-        public bool? GetPref(string itemPath, string prop, string def)
+        public bool? GetPref(string itemPath, string prop, bool def)
         {
             var path = itemPath;
             do
@@ -75,7 +85,7 @@ namespace OrangeBits
 
                 if (path.ToLowerInvariant() == this.SitePath.ToLowerInvariant())
                 {
-                    break;
+                    return def;
                 }
                 else
                 {
@@ -114,6 +124,89 @@ namespace OrangeBits
                     ClearPrefs(child.FullName, props);
                 }
             }
+        }
+        #endregion
+
+        #region PathHasValue
+        /// <summary>
+        /// determines if any options are set on the current node
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public bool PathHasValue(string path)
+        {
+            var props = typeof(OptionViewModel).GetProperties().Where(x => Attribute.IsDefined(x, typeof(DefaultValueAttribute)));
+            foreach (var prop in props)
+            {
+                var key = this.getPathKey(path, prop.Name);
+                if (this.SitePreferences.ContainsValue(key))
+                    return true;
+            }
+            return false;
+        }
+        #endregion
+
+        #region LoadOptions
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="paths"></param>
+        /// <param name="prefs"></param>
+        public void LoadOptions(OptionViewModel vm)
+        {
+            // get all of the properties on this class with the DefaultValue attribute
+            var props = typeof(OptionViewModel).GetProperties().Where(x => Attribute.IsDefined(x, typeof(DefaultValueAttribute)));
+            foreach (var prop in props)
+            {
+                // what's the default value for this property?
+                bool def = (bool)(prop.GetCustomAttributes(typeof(DefaultValueAttribute), false)[0] as DefaultValueAttribute).Value;
+                bool? firstValue = null;
+
+                foreach (var path in vm.Paths)
+                {
+                    bool? prefValue = this.GetPref(path, prop.Name, def);
+                    if (firstValue == null)
+                        firstValue = prefValue;
+
+                    if (prefValue != firstValue)
+                        prop.SetValue(vm, null, null);
+                }
+                prop.SetValue(vm, firstValue == null ? def : firstValue, null);
+            }
+        }
+        #endregion
+
+        #region SaveOptions
+        /// <summary>
+        /// save the true/false options for the given set of paths, clearing any previous downstream values
+        /// </summary>
+        /// <param name="prefs"></param>
+        public void SaveOptions(OptionViewModel vm)
+        {
+            // clear any settings for the current path or paths that are downstream
+            var props = typeof(OptionViewModel).GetProperties().Where(x => Attribute.IsDefined(x, typeof(DefaultValueAttribute)));
+            if (vm.OverwriteChildSettings)
+            {
+                foreach (var path in vm.Paths)
+                {
+                    this.ClearPrefs(path, props);
+                }
+            }
+
+            // save new settings for each path and property
+            foreach (var path in vm.Paths)
+            {
+                foreach (var prop in props)
+                {
+                    var key = this.getPathKey(path, prop.Name);
+                    var value = prop.GetValue(vm, null) as bool?;
+                    if (value.HasValue)
+                    {
+                        this.SitePreferences.SetValue(key, value.Value.ToString());
+                    }
+                }
+            }
+            this.SitePreferences.Save();
         }
         #endregion
     }

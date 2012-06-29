@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
@@ -63,25 +64,11 @@ namespace OrangeBits
             }
         }
 
-        private PrefUtility _prefUtility;
         /// <summary>
         /// Get all of the information needed to load preferences
         /// </summary>        
-        protected PrefUtility prefUtility { 
-            get {
-                if (_prefUtility == null)
-                {
-                    _prefUtility = new PrefUtility()
-                    {
-                        ExtensionName = "OrangeBits",
-                        SitePath = _host.WebSite.Path,
-                        SitePreferences = _host.WebSite.SitePreferences
-                    };
-                }
-                return _prefUtility;
-            }
-        }
-       
+        protected PrefUtility prefUtility { get; set; }
+
 
         #endregion
 
@@ -119,17 +106,12 @@ namespace OrangeBits
             // add host event handlers
             _host = host;
             if (host != null)
-            {                
+            {
                 host.WebSiteChanged += new EventHandler<EventArgs>(WebMatrixHost_WebSiteChanged);
                 _worker = new Worker(host);
 
                 host.ContextMenuOpening += new EventHandler<ContextMenuOpeningEventArgs>(host_ContextMenuOpening);
-
-                // ensure the site watcher is fired up the first time the extension is installed
-                if (host.WebSite != null && !String.IsNullOrEmpty(_host.WebSite.Path))
-                {
-                    _siteFileWatcher.RegisterForSiteNotifications(WatcherChangeTypes.Changed | WatcherChangeTypes.Created, new FileSystemEventHandler(SourceFileChanged), null);
-                }
+                InitSite();
             }
         }
         #endregion
@@ -149,29 +131,29 @@ namespace OrangeBits
                 {
                     if (e.ChangeType == WatcherChangeTypes.Changed)
                     {
-                        bool isNodeModules = e.FullPath.ToLower().Contains("node_modules");
                         bool? doIt = null;
                         OrangeJob.JobType jobType = OrangeJob.JobType.Compile;
 
-                        switch(ext.ToLowerInvariant()) {
+                        switch (ext.ToLowerInvariant())
+                        {
                             case ".less":
-                                doIt = prefUtility.GetPref(e.FullPath, "AutoCompileLess", (!isNodeModules).ToString());                                
+                                doIt = prefUtility.GetPref(e.FullPath, "AutoCompileLess", true);
                                 break;
                             case ".scss":
-                                doIt = prefUtility.GetPref(e.FullPath, "AutoCompileScss", (!isNodeModules).ToString());
+                                doIt = prefUtility.GetPref(e.FullPath, "AutoCompileScss", true);
                                 break;
                             case ".sass":
-                                doIt = prefUtility.GetPref(e.FullPath, "AutoCompileSass", (!isNodeModules).ToString());
+                                doIt = prefUtility.GetPref(e.FullPath, "AutoCompileSass", true);
                                 break;
                             case ".coffee":
-                                doIt = prefUtility.GetPref(e.FullPath, "AutoCompileCoffee", (!isNodeModules).ToString());
+                                doIt = prefUtility.GetPref(e.FullPath, "AutoCompileCoffee", true);
                                 break;
                             case ".js":
-                                doIt = e.FullPath.EndsWith(".min.js") ? false : prefUtility.GetPref(e.FullPath, "AutoMinifyJS", "false");
+                                doIt = e.FullPath.EndsWith(".min.js") ? false : prefUtility.GetPref(e.FullPath, "AutoMinifyJS", false);
                                 jobType = OrangeJob.JobType.Minify;
                                 break;
                             case ".css":
-                                doIt = e.FullPath.EndsWith(".min.css") ? false : prefUtility.GetPref(e.FullPath, "AutoMinifyCSS", "false");
+                                doIt = e.FullPath.EndsWith(".min.css") ? false : prefUtility.GetPref(e.FullPath, "AutoMinifyCSS", false);
                                 jobType = OrangeJob.JobType.Minify;
                                 break;
                         }
@@ -241,18 +223,18 @@ namespace OrangeBits
             var menuItem = new ContextMenuItem("OrangeBits Options", null, new DelegateCommand((items) =>
             {
                 var selectedItems = items as IEnumerable<ISiteItem>;
-                var dialog = new OptionsUI();                
+                var dialog = new OptionsUI();
                 var vm = new OptionViewModel()
                 {
                     Paths = selectedItems.Select(x => (x as ISiteFileSystemItem).Path).ToArray()
-                };                
+                };
 
-                vm.LoadOptions(selectedItems, prefUtility);
+                prefUtility.LoadOptions(vm);
                 dialog.DataContext = vm;
                 var result = _host.ShowDialog("OrangeBits Options", dialog);
                 if (result.HasValue && result.Value)
                 {
-                    vm.SaveOptions(prefUtility);
+                    prefUtility.SaveOptions(vm);
                 }
 
             }), e.Items);
@@ -378,14 +360,7 @@ namespace OrangeBits
         /// <param name="e">Event arguments.</param>
         private void WebMatrixHost_WebSiteChanged(object sender, EventArgs e)
         {
-            if (_host != null && _host.WebSite != null && !String.IsNullOrEmpty(_host.WebSite.Path))
-            {
-                _siteFileWatcher.RegisterForSiteNotifications(WatcherChangeTypes.Changed | WatcherChangeTypes.Created, new FileSystemEventHandler(SourceFileChanged), null);
-            }
-            else
-            {
-                _siteFileWatcher.DeregisterForSiteNotifications(WatcherChangeTypes.Changed | WatcherChangeTypes.Created, new FileSystemEventHandler(SourceFileChanged), null);
-            }
+            InitSite();
         }
         #endregion
 
@@ -414,7 +389,49 @@ namespace OrangeBits
         }
         #endregion
 
-       
+        #region InitSite
+        /// <summary>
+        /// set up the file watcher for detecting changes
+        /// </summary>
+        protected void InitSite()
+        {
+            if (_host != null && _host.WebSite != null && !String.IsNullOrEmpty(_host.WebSite.Path))
+            {
+                prefUtility = new PrefUtility()
+                {
+                    ExtensionName = "OrangeBits",
+                    SitePath = _host.WebSite.Path,
+                    SitePreferences = _host.WebSite.SitePreferences
+                };
+
+                // by default, do not do anything to node_modules
+                var path = Path.Combine(_host.WebSite.Path, "node_modules");
+                var isSet = prefUtility.PathHasValue(path);
+                if (!isSet)
+                {
+                    var props = typeof(OptionViewModel).GetProperties().Where(x => Attribute.IsDefined(x, typeof(DefaultValueAttribute)));
+                    OptionViewModel vm = new OptionViewModel()
+                    {
+                        Paths = new string[] { path }
+                    };
+
+                    foreach (var prop in props)
+                    {
+                        prop.SetValue(vm, false, null);
+                    }
+                    prefUtility.SaveOptions(vm);
+                }
+
+
+                _siteFileWatcher.RegisterForSiteNotifications(WatcherChangeTypes.Changed | WatcherChangeTypes.Created, new FileSystemEventHandler(SourceFileChanged), null);
+            }
+            else
+            {
+                _siteFileWatcher.DeregisterForSiteNotifications(WatcherChangeTypes.Changed | WatcherChangeTypes.Created, new FileSystemEventHandler(SourceFileChanged), null);
+            }
+        }
+
+        #endregion
 
     }
 }

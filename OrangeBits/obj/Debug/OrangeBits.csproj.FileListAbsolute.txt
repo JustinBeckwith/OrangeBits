@@ -59,4 +59,3 @@ C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\obj\Debug\UI\OptionsUI.baml
 C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\obj\Debug\OrangeBits.g.resources
 C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\obj\Debug\OrangeBits.dll
 C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\obj\Debug\OrangeBits.pdb
-C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\obj\Debug\OrangeBits.csprojResolveAssemblyReference.cache
