@@ -45,11 +45,18 @@ namespace OrangeBits.Compilers
                 var fileReader = new FileReader();
                 var source = fileReader.GetFileContents(inPath);
                 var output = engine.TransformToCss(source, inPath);
-                using (StreamWriter sw = new StreamWriter(outPath))
-                {
-                    sw.WriteLine(OrangeBits.GetHeader(inPath));
-                    sw.Write(output);
-                }
+				if (engine.LastTransformationSuccessful)
+				{
+					using (StreamWriter sw = new StreamWriter(outPath))
+					{
+						sw.WriteLine(OrangeBits.GetHeader(inPath));
+						sw.Write(output);
+					}
+				}
+				else
+				{
+					throw new Exception("Error compiling LESS");
+				}
             }
             return null;
         }

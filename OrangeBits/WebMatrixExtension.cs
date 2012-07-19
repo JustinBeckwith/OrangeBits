@@ -163,7 +163,8 @@ namespace OrangeBits
                             _worker.AddItem(new OrangeJob()
                             {
                                 Path = e.FullPath,
-                                Type = jobType
+                                Type = jobType,
+								Source = OrangeJob.JobSource.Save
                             });
 
                         }
@@ -268,7 +269,8 @@ namespace OrangeBits
                                 jobs.Add(new OrangeJob()
                                 {
                                     Path = f.FullName,
-                                    Type = jobType
+                                    Type = jobType,
+									Source = OrangeJob.JobSource.Context
                                 });
                             }
                         }
@@ -280,7 +282,8 @@ namespace OrangeBits
                             jobs.Add(new OrangeJob()
                             {
                                 Path = fsi.Path,
-                                Type = jobType
+                                Type = jobType,
+								Source = OrangeJob.JobSource.Context
                             });
                         }
                     }

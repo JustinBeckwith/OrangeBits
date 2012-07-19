@@ -36,8 +36,9 @@ C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\Tools\optipng.exe
 C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\OrangeBits.dll.config
 C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\OrangeBits.dll
 C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\OrangeBits.pdb
-C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\dotless.Core.dll
-C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\EcmaScript.NET.modified.dll
+C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\dotless.ClientOnly.dll
+C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\EcmaScript.NET.dll
+C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\Iesi.Collections.dll
 C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\IronRuby.dll
 C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\IronRuby.Libraries.dll
 C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\IronRuby.Libraries.Yaml.dll
@@ -45,12 +46,12 @@ C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\Microsoft.Dynamic.d
 C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\Microsoft.Scripting.dll
 C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\Microsoft.Scripting.Metadata.dll
 C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\Microsoft.WebMatrix.Extensibility.dll
-C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\SassAndCoffee.AspNet.dll
 C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\SassAndCoffee.Core.dll
 C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\SassAndCoffee.JavaScript.dll
 C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\SassAndCoffee.Ruby.dll
 C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\Yahoo.Yui.Compressor.dll
 C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\bin\Debug\Microsoft.WebMatrix.Extensibility.xml
+C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\obj\Debug\OrangeBits.csprojResolveAssemblyReference.cache
 C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\obj\Debug\UI\OptionsUI.g.cs
 C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\obj\Debug\GeneratedInternalTypeHelper.g.cs
 C:\Users\justbe\Dropbox\Code\OrangeBits\OrangeBits\obj\Debug\OrangeBits_MarkupCompile.cache

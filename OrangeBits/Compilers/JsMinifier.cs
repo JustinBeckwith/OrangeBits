@@ -16,10 +16,10 @@ namespace OrangeBits.Compilers
             using (StreamReader sr = new StreamReader(inPath))
             {               
                 string content = sr.ReadToEnd();
-                string output = JavaScriptCompressor.Compress(content);
+                JavaScriptCompressor x = new JavaScriptCompressor();                
+                string output = x.Compress(content);
                 using (StreamWriter sw = new StreamWriter(outPath))
                 {
-                    //sw.WriteLine(OrangeBits.GetHeader(inPath));
                     sw.Write(output);
                 }
             }

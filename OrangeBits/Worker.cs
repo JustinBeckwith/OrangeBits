@@ -137,7 +137,7 @@ namespace OrangeBits
 				CompileResults results = OrangeCompiler.Process(job);
 
 				// show the notification bar to notify the user it happened                
-				host.ShowNotification(results.Message, "Open File", threadedOpenCmd);
+				//host.ShowNotification(results.Message, "Open File", threadedOpenCmd);
 
 				// refresh the tree so the new file (if created) shows up
 				if (results.IsNewFile)

@@ -92,9 +92,7 @@ namespace OrangeBits
                     path = Directory.GetParent(path).FullName;
                 }
 
-            } while (true);
-
-            return null;
+            } while (true);            
         }
         #endregion
 

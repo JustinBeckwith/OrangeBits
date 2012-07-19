@@ -17,7 +17,14 @@ namespace OrangeBits
 			Optimize
 		}
 
+		public enum JobSource
+		{
+			Save,
+			Context
+		}
+
 		public JobType Type { get; set; }
+		public JobSource Source { get; set; }
 		public string Path { get; set; }
 		public DateTime Time { get; set; }
 
