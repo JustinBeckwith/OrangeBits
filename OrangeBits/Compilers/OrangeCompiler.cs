@@ -109,9 +109,13 @@ namespace OrangeBits.Compilers
 			if (String.IsNullOrEmpty(job.Path))
 				throw new Exception("The path passed to Orange Compiler must be a valid LESS, CoffeeScript, or Sass file");
 			
-			// get the file extension
-			FileInfo f = new FileInfo(job.Path);
-			string outPath = job.Path.Substring(0, job.Path.LastIndexOf('.'));
+			
+			FileInfo f = new FileInfo(job.Path);	
+			
+			// OutputPath can be relative - calculate the correct absolute path
+			var targetFile = Path.Combine(job.OutputPath, Path.GetFileName(job.Path));
+			string outPath = targetFile.Substring(0, targetFile.LastIndexOf('.'));
+
 			string outExt = "";
 			switch (job.Type)
 			{

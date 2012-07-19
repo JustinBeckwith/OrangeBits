@@ -5,7 +5,7 @@
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
 			 xmlns:r="clr-namespace:OrangeBits.UI"
 			 mc:Ignorable="d" 
-			 d:DesignHeight="300" d:DesignWidth="300">
+			 d:DesignHeight="500" d:DesignWidth="500">
 	<UserControl.Resources>
 		<Style TargetType="r:OrangeCheckbox">
 			<Setter Property="Margin" Value="5" />
@@ -30,6 +30,22 @@
 		        <r:OrangeCheckbox IsThreeState="True" Content="Auto Compile CoffeeScript" IsChecked="{Binding Path=AutoCompileCoffee}" ToolTip="Automatically compile all *.coffe files as they are changed" />
 		        <r:OrangeCheckbox IsThreeState="True" Content="Auto Minify CSS" IsChecked="{Binding Path=AutoMinifyCSS}" ToolTip="Automatically minify all *.css files as they are changed" />
 		        <r:OrangeCheckbox IsThreeState="True" Content="Auto Minify JS" IsChecked="{Binding Path=AutoMinifyJS}" ToolTip="Automatically compile all *.js files as they are changed" />
+				
+				<Label Content="Output Path:" Margin="0 10 0 0 "/>
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="300" />
+						<ColumnDefinition Width="Auto" />
+					</Grid.ColumnDefinitions>					
+					<TextBox Margin="3" Text="{Binding Path=OutputPath}" Grid.Column="0" Grid.Row="0" />
+					<!--<Button Content="..." Grid.Column="1" />-->
+				</Grid>
+				
+				
+				
             </StackPanel>
         </GroupBox>        
         <CheckBox Content="Overwrite child settings" IsChecked="{Binding Path=OverwriteChildSettings}" ToolTip="Overwrite any options set on child nodes in the file tree" Margin="0 10 0 0" />

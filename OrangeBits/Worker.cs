@@ -126,14 +126,17 @@ namespace OrangeBits
 				mainDispatcher.Invoke(new Action(() =>
 				{
 					var openCommand = host.HostCommands.OpenFileInEditor;
-					if (openCommand.CanExecute(job.Path))
-						openCommand.Execute(job.Path);
+					if (openCommand.CanExecute(job.OutputPath))
+						openCommand.Execute(job.OutputPath);
 				}));
 			});
 
 			try
 			{
 				// do the actual compilation work
+
+
+
 				CompileResults results = OrangeCompiler.Process(job);
 
 				// show the notification bar to notify the user it happened                

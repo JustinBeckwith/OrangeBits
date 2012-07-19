@@ -1,0 +1,10 @@
+﻿$red: #FF0000;
+$margin: 16px;
+
+.scssBox {
+  background-color: lighten($red, 45%);
+  border-color: $red;
+  color: darken($red, 9%);
+  padding: $margin / 2;
+  margin: $margin / 2;
+} 

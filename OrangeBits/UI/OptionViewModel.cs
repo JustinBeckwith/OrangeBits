@@ -46,6 +46,9 @@ namespace OrangeBits.UI
 
 		[DefaultValue(false)]
 		public bool? AutoMinifyJS { get; set; }
+
+		[DefaultValue(@".\")]
+		public string OutputPath { get; set; }
 		
 		#endregion
 	

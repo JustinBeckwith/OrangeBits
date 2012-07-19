@@ -137,23 +137,23 @@ namespace OrangeBits
                         switch (ext.ToLowerInvariant())
                         {
                             case ".less":
-                                doIt = prefUtility.GetPref(e.FullPath, "AutoCompileLess", true);
+                                doIt = prefUtility.GetPref(e.FullPath, "AutoCompileLess", true) as bool?;
                                 break;
                             case ".scss":
-                                doIt = prefUtility.GetPref(e.FullPath, "AutoCompileScss", true);
+                                doIt = prefUtility.GetPref(e.FullPath, "AutoCompileScss", true) as bool?;
                                 break;
                             case ".sass":
-                                doIt = prefUtility.GetPref(e.FullPath, "AutoCompileSass", true);
+                                doIt = prefUtility.GetPref(e.FullPath, "AutoCompileSass", true) as bool?;
                                 break;
                             case ".coffee":
-                                doIt = prefUtility.GetPref(e.FullPath, "AutoCompileCoffee", true);
+                                doIt = prefUtility.GetPref(e.FullPath, "AutoCompileCoffee", true) as bool?;
                                 break;
                             case ".js":
-                                doIt = e.FullPath.EndsWith(".min.js") ? false : prefUtility.GetPref(e.FullPath, "AutoMinifyJS", false);
+                                doIt = e.FullPath.EndsWith(".min.js") ? false : prefUtility.GetPref(e.FullPath, "AutoMinifyJS", false) as bool?;
                                 jobType = OrangeJob.JobType.Minify;
                                 break;
                             case ".css":
-                                doIt = e.FullPath.EndsWith(".min.css") ? false : prefUtility.GetPref(e.FullPath, "AutoMinifyCSS", false);
+                                doIt = e.FullPath.EndsWith(".min.css") ? false : prefUtility.GetPref(e.FullPath, "AutoMinifyCSS", false) as bool?;
                                 jobType = OrangeJob.JobType.Minify;
                                 break;
                         }
@@ -163,6 +163,7 @@ namespace OrangeBits
                             _worker.AddItem(new OrangeJob()
                             {
                                 Path = e.FullPath,
+								OutputPath = GetOutputPath(e.FullPath),
                                 Type = jobType,
 								Source = OrangeJob.JobSource.Save
                             });
@@ -269,6 +270,7 @@ namespace OrangeBits
                                 jobs.Add(new OrangeJob()
                                 {
                                     Path = f.FullName,
+									OutputPath = GetOutputPath(f.FullName),
                                     Type = jobType,
 									Source = OrangeJob.JobSource.Context
                                 });
@@ -282,6 +284,7 @@ namespace OrangeBits
                             jobs.Add(new OrangeJob()
                             {
                                 Path = fsi.Path,
+								OutputPath = GetOutputPath(fsi.Path),
                                 Type = jobType,
 								Source = OrangeJob.JobSource.Context
                             });
@@ -349,10 +352,7 @@ namespace OrangeBits
                 foreach (OrangeJob job in jobs)
                     _worker.AddItem(job);
             }
-
-
         }
-
         #endregion
 
         #region WebMatrixHost_WebSiteChanged
@@ -436,5 +436,19 @@ namespace OrangeBits
 
         #endregion
 
-    }
+		#region GetOutputPath
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="inputPath"></param>
+		/// <returns></returns>
+		private string GetOutputPath(string inputPath)
+		{
+			string outPath = prefUtility.GetPref(inputPath, "OutputPath", ".\\").ToString();
+			var targetDir = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(inputPath), outPath));			
+			return outPath;
+		}
+		#endregion
+
+	}
 }

@@ -70,7 +70,7 @@ namespace OrangeBits
         /// <param name="item"></param>
         /// <param name="prop"></param>
         /// <returns></returns>
-        public bool? GetPref(string itemPath, string prop, bool def)
+        public object GetPref(string itemPath, string prop, object def)
         {
             var path = itemPath;
             do
@@ -79,8 +79,14 @@ namespace OrangeBits
                 if (this.SitePreferences.ContainsValue(key))
                 {
                     var value = this.SitePreferences.GetValue(key);
-                    if (value != null)
-                        return bool.Parse(value);
+					if (value != null)
+					{												
+						if (def.GetType() == typeof(bool))
+						{
+							return bool.Parse(value);
+						}
+						return value.ToString();
+					}
                 }
 
                 if (path.ToLowerInvariant() == this.SitePath.ToLowerInvariant())
@@ -157,12 +163,12 @@ namespace OrangeBits
             foreach (var prop in props)
             {
                 // what's the default value for this property?
-                bool def = (bool)(prop.GetCustomAttributes(typeof(DefaultValueAttribute), false)[0] as DefaultValueAttribute).Value;
-                bool? firstValue = null;
+                object def = (prop.GetCustomAttributes(typeof(DefaultValueAttribute), false)[0] as DefaultValueAttribute).Value;
+                object firstValue = null;
 
                 foreach (var path in vm.Paths)
                 {
-                    bool? prefValue = this.GetPref(path, prop.Name, def);
+                    object prefValue = this.GetPref(path, prop.Name, def);
                     if (firstValue == null)
                         firstValue = prefValue;
 
@@ -197,11 +203,21 @@ namespace OrangeBits
                 foreach (var prop in props)
                 {
                     var key = this.getPathKey(path, prop.Name);
-                    var value = prop.GetValue(vm, null) as bool?;
-                    if (value.HasValue)
-                    {
-                        this.SitePreferences.SetValue(key, value.Value.ToString());
-                    }
+                    var value = prop.GetValue(vm, null);
+					if (prop.PropertyType == typeof(bool?))
+					{
+						if ((value as bool?).HasValue)
+						{
+							this.SitePreferences.SetValue(key, (value as bool?).Value.ToString());
+						}
+					}
+					else
+					{
+						if (value != null)
+						{
+							this.SitePreferences.SetValue(key, value.ToString());
+						}
+					}
                 }
             }
             this.SitePreferences.Save();

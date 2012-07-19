@@ -26,6 +26,7 @@ namespace OrangeBits
 		public JobType Type { get; set; }
 		public JobSource Source { get; set; }
 		public string Path { get; set; }
+		public string OutputPath { get; set; }
 		public DateTime Time { get; set; }
 
 		public OrangeJob()
