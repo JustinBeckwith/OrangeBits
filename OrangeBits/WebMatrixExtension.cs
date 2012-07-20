@@ -420,7 +420,8 @@ namespace OrangeBits
 
                     foreach (var prop in props)
                     {
-                        prop.SetValue(vm, false, null);
+						if (prop.PropertyType == typeof(bool?)) 
+							prop.SetValue(vm, false, null);
                     }
                     prefUtility.SaveOptions(vm);
                 }
@@ -446,7 +447,7 @@ namespace OrangeBits
 		{
 			string outPath = prefUtility.GetPref(inputPath, "OutputPath", ".\\").ToString();
 			var targetDir = Path.GetFullPath(Path.Combine(Path.GetDirectoryName(inputPath), outPath));			
-			return outPath;
+			return targetDir;
 		}
 		#endregion
 
