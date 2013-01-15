@@ -20,7 +20,6 @@ namespace OrangeBits.Compilers
 				string output = x.Compress(content);
 				using (StreamWriter sw = new StreamWriter(outPath))
 				{					
-					//sw.WriteLine(OrangeBits.GetHeader(inPath));
 					sw.Write(output);
 				}
 			}

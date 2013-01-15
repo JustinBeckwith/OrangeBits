@@ -16,7 +16,7 @@ namespace OrangeBits.Compilers
 		/// <summary>
 		/// list of supported file extensions
 		/// </summary>
-		public static string[] supportedCompileExtensions = new string[] { ".less", ".sass", ".scss", ".coffee" };
+		public static string[] supportedCompileExtensions = new string[] { ".less", ".sass", ".scss", ".coffee", ".ts" };
 		public static string[] supportedMinifyExtensions = new string[] { ".js", ".css" };
 		public static string[] supportedOptimizeExtensions = new string[] { ".png", ".bmp", ".gif" };
 		public static string[] supportedDataURIExtensions = new string[] { ".png", ".bmp", ".gif", ".jpg", ".jpeg" };
@@ -120,7 +120,7 @@ namespace OrangeBits.Compilers
 			switch (job.Type)
 			{
 				case OrangeJob.JobType.Compile:
-					outExt = (f.Extension.ToLower() == ".coffee") ? ".js" : ".css";
+					outExt = (f.Extension.ToLower() == ".coffee" || f.Extension.ToLower() == ".ts") ? ".js" : ".css";
 					break;
 				case OrangeJob.JobType.Minify:
 					outExt = (f.Extension.ToLower() == ".css") ? ".min.css" : ".min.js";
@@ -133,6 +133,9 @@ namespace OrangeBits.Compilers
 			
 			switch (f.Extension.ToLower()) 
 			{
+                case ".ts":
+                    compiler = new TypeScriptCompiler();
+                    break;
 				case ".js":
 					compiler = new JsMinifier();
 					break;

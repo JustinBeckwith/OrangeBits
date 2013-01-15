@@ -127,7 +127,7 @@ namespace OrangeBits
             try
             {
                 var ext = (new FileInfo(e.FullPath)).Extension;
-                if (Regex.IsMatch(ext, @"\.(less|scss|sass|coffee|js|css)", RegexOptions.IgnoreCase))
+                if (Regex.IsMatch(ext, @"\.(less|scss|sass|coffee|js|css|ts)", RegexOptions.IgnoreCase))
                 {
                     if (e.ChangeType == WatcherChangeTypes.Changed)
                     {
@@ -155,6 +155,9 @@ namespace OrangeBits
                             case ".css":
                                 doIt = e.FullPath.EndsWith(".min.css") ? false : prefUtility.GetPref(e.FullPath, "AutoMinifyCSS", false) as bool?;
                                 jobType = OrangeJob.JobType.Minify;
+                                break;
+                            case ".ts":
+                                doIt = prefUtility.GetPref(e.FullPath, "AutoCompileTypeScript", true) as bool?;
                                 break;
                         }
 

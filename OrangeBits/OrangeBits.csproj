@@ -100,6 +100,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Compilers\CoffeeCompiler.cs" />
+    <Compile Include="Compilers\CompilationException.cs" />
     <Compile Include="Compilers\CompileResults.cs" />
     <Compile Include="Compilers\JPGCompressor.cs" />
     <Compile Include="Compilers\JsMinifier.cs" />
@@ -110,6 +111,7 @@
     <Compile Include="Compilers\PNGCompressor.cs" />
     <Compile Include="Compilers\SassCompiler.cs" />
     <Compile Include="Compilers\StylusCompiler.cs" />
+    <Compile Include="Compilers\TypeScriptCompiler.cs" />
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="OrangeJob.cs" />
     <Compile Include="PrefUtility.cs" />
@@ -126,8 +128,23 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="Tools\node_modules\.bin\tsc" />
+    <None Include="Tools\node_modules\.bin\tsc.cmd" />
+    <None Include="Tools\node_modules\typescript\.npmignore" />
+    <None Include="Tools\node_modules\typescript\bin\tsc" />
+    <None Include="Tools\node_modules\typescript\package.json" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Tools\node.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Tools\node_modules\typescript\bin\lib.d.ts" />
+    <Content Include="Tools\node_modules\typescript\bin\tsc.js" />
+    <Content Include="Tools\node_modules\typescript\bin\typescript.js" />
+    <Content Include="Tools\node_modules\typescript\CopyrightNotice.txt" />
+    <Content Include="Tools\node_modules\typescript\LICENSE.txt" />
+    <Content Include="Tools\node_modules\typescript\README.txt" />
+    <Content Include="Tools\node_modules\typescript\ThirdPartyNoticeText.txt" />
     <Content Include="Tools\optipng.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -140,8 +157,10 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if not exist "$(USERPROFILE)\AppData\Local\Microsoft\WebMatrix\Extensions\20\$(TargetName)" md "$(USERPROFILE)\AppData\Local\Microsoft\WebMatrix\Extensions\20\$(TargetName)"
-xcopy /E /Y "$(TargetDir)*" "$(USERPROFILE)\AppData\Local\Microsoft\WebMatrix\Extensions\20\$(TargetName)" &gt; NUL</PostBuildEvent>
+    <PostBuildEvent>xcopy /E /Y "$(ProjectDir)\Tools\node_modules" "$(TargetDir)\Tools"
+if not exist "$(USERPROFILE)\AppData\Local\Microsoft\WebMatrix\Extensions\20\$(TargetName)" md "$(USERPROFILE)\AppData\Local\Microsoft\WebMatrix\Extensions\20\$(TargetName)"
+xcopy /E /Y "$(TargetDir)*" "$(USERPROFILE)\AppData\Local\Microsoft\WebMatrix\Extensions\20\$(TargetName)" &gt; NUL
+</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>if exist "$(TEMP)\WebMatrix.crash.info" del "$(TEMP)\WebMatrix.crash.info"

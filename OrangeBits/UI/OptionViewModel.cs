@@ -35,6 +35,9 @@ namespace OrangeBits.UI
 		[DefaultValue(true)]
 		public bool? AutoCompileLess { get; set; }
 
+        [DefaultValue(true)]
+        public bool? AutoCompileTypeScript { get; set; }
+
 		[DefaultValue(true)]
 		public bool? AutoCompileSass { get; set; }
 

@@ -28,6 +28,7 @@
 		        <r:OrangeCheckbox IsThreeState="True"  Content="Auto Compile LESS" IsChecked="{Binding Path=AutoCompileLess}" ToolTip="Automatically compile all *.less files as they are changed"  />
 		        <r:OrangeCheckbox IsThreeState="True" Content="Auto Compile Sass" IsChecked="{Binding Path=AutoCompileSass}" ToolTip="Automatically compile all *.sass and *.scss files as they are changed" />
 		        <r:OrangeCheckbox IsThreeState="True" Content="Auto Compile CoffeeScript" IsChecked="{Binding Path=AutoCompileCoffee}" ToolTip="Automatically compile all *.coffe files as they are changed" />
+                <r:OrangeCheckbox IsThreeState="True" Content="Auto Compile TypeScript" IsChecked="{Binding Path=AutoCompileTypeScript}" ToolTip="Automatically compile all *.ts files as they are changed" />
 		        <r:OrangeCheckbox IsThreeState="True" Content="Auto Minify CSS" IsChecked="{Binding Path=AutoMinifyCSS}" ToolTip="Automatically minify all *.css files as they are changed" />
 		        <r:OrangeCheckbox IsThreeState="True" Content="Auto Minify JS" IsChecked="{Binding Path=AutoMinifyJS}" ToolTip="Automatically compile all *.js files as they are changed" />
 				
