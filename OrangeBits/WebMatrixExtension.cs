@@ -139,9 +139,7 @@ namespace OrangeBits
                             case ".less":
                                 doIt = prefUtility.GetPref(e.FullPath, "AutoCompileLess", true) as bool?;
                                 break;
-                            case ".scss":
-                                doIt = prefUtility.GetPref(e.FullPath, "AutoCompileScss", true) as bool?;
-                                break;
+                            case ".scss":                                
                             case ".sass":
                                 doIt = prefUtility.GetPref(e.FullPath, "AutoCompileSass", true) as bool?;
                                 break;

@@ -178,8 +178,7 @@ namespace OrangeBits.Compilers
 					Success = true,
 					InputPath = job.Path,
 					OutputPath = outPath,
-					IsNewFile = !exists,
-					Message = "Compiled"
+					IsNewFile = !exists
 				};
 			}
 			return results;
