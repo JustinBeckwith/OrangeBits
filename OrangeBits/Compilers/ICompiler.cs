@@ -8,5 +8,6 @@ namespace OrangeBits.Compilers
 	interface ICompiler
 	{
 		CompileResults Compile(string inPath, string outPath);
+        event EventHandler<OutputReceivedEventArgs> OutputDataReceived;
 	}
 }

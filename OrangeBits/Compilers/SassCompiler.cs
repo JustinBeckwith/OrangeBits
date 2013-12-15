@@ -9,9 +9,9 @@ using SassAndCoffee.Core;
 
 namespace OrangeBits.Compilers
 {
-    public class SassCompiler : ICompiler
+    internal class SassCompiler : BaseCompiler
     {
-        public CompileResults Compile(string inPath, string outPath)
+        public override CompileResults Compile(string inPath, string outPath)
         {
             SassAndCoffee.Ruby.Sass.SassCompiler compiler = new SassAndCoffee.Ruby.Sass.SassCompiler();
             string output = compiler.Compile(inPath, false, null);
@@ -20,7 +20,7 @@ namespace OrangeBits.Compilers
                 sw.WriteLine(OrangeBits.GetHeader(inPath));
                 sw.Write(output);
             }
-			return null;
+            return null;
         }
-    }
+    }  
 }

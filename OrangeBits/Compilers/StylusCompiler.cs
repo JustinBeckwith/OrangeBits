@@ -5,9 +5,9 @@ using System.Text;
 
 namespace OrangeBits.Compilers
 {
-    public class StylusCompiler : ICompiler
+    internal class StylusCompiler : BaseCompiler
     {
-        public CompileResults Compile(string inPath, string outPath)
+        public override CompileResults Compile(string inPath, string outPath)
         {
             throw new NotImplementedException();
         }

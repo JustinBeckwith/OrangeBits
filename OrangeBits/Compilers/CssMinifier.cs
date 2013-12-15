@@ -9,9 +9,9 @@ using Yahoo.Yui.Compressor;
 
 namespace OrangeBits.Compilers
 {
-	public class CssMinifier : ICompiler
+	internal class CssMinifier : BaseCompiler
 	{       
-		public CompileResults Compile(string inPath, string outPath)
+		public override CompileResults Compile(string inPath, string outPath)
 		{
 			using (StreamReader sr = new StreamReader(inPath))
 			{               				

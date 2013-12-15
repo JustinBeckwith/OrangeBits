@@ -1,16 +1,18 @@
-﻿using System;
+﻿using Ionic.Zip;
+using Microsoft.WebMatrix.Extensibility;
+using OrangeBits.Compilers;
+using OrangeBits.UI;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Security.Principal;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
-using Microsoft.WebMatrix.Extensibility;
-using OrangeBits.Compilers;
-using OrangeBits.UI;
 
 namespace OrangeBits
 {
@@ -41,7 +43,7 @@ namespace OrangeBits
         /// <summary>
         /// background process that manages the queue of compilation requests
         /// </summary>
-        protected Worker _worker;
+        private Worker _worker;
 
         /// <summary>
         /// 
@@ -62,7 +64,7 @@ namespace OrangeBits
             {
                 _siteFileWatcher = value;
             }
-        }
+        }        
 
         /// <summary>
         /// Get all of the information needed to load preferences
@@ -105,6 +107,7 @@ namespace OrangeBits
         {
             // add host event handlers
             _host = host;
+            UnpackModules();
             if (host != null)
             {
                 host.WebSiteChanged += new EventHandler<EventArgs>(WebMatrixHost_WebSiteChanged);
@@ -113,6 +116,7 @@ namespace OrangeBits
                 host.ContextMenuOpening += new EventHandler<ContextMenuOpeningEventArgs>(host_ContextMenuOpening);
                 InitSite();
             }
+
         }
         #endregion
 
@@ -452,5 +456,31 @@ namespace OrangeBits
 		}
 		#endregion
 
-	}
+        #region UnpackModules
+        /// <summary>
+        /// all of the node modules used for less/sass/coffee are included in a zip file in the
+        /// extension.  This was to avoid problems with NuGet ignoring files with no extension and
+        /// hidden files in the modules
+        /// </summary>
+        private void UnpackModules()
+        {
+            string path = Directory.GetParent(Assembly.GetExecutingAssembly().Location) + @"\Tools\modules.zip";
+            if (File.Exists(path))
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    using (var zip = ZipFile.Read(path))
+                    {
+                        foreach (var e in zip)
+                        {
+                            e.Extract(Directory.GetParent(path).FullName);
+                        }
+                    }
+                    File.Delete(path);
+                });
+            }
+        }
+        #endregion
+
+    }
 }

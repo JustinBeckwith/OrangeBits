@@ -4,9 +4,9 @@ using OrangeBits;
 
 namespace OrangeBits.Compilers
 {
-	public class JPGCompressor : ICompiler
+	internal class JPGCompressor : BaseCompiler
 	{
-		public CompileResults Compile(string inPath, string outPath)
+		public override CompileResults Compile(string inPath, string outPath)
 		{
 			var info = new ProcessStartInfo();
 			info.FileName = "optipng.exe";

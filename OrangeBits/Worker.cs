@@ -8,6 +8,7 @@ using System.Linq;
 using System.Windows.Threading;
 using Microsoft.WebMatrix.Extensibility;
 using System.Collections.Concurrent;
+using System.Diagnostics;
 
 namespace OrangeBits
 {
@@ -15,7 +16,7 @@ namespace OrangeBits
     /// class that monitors the queue of file change events, and invokes the 
     /// compiler when neccessary
     /// </summary>
-    public class Worker
+    internal class Worker
     {
         //--------------------------------------------------------------------------
         //
@@ -45,6 +46,11 @@ namespace OrangeBits
         /// </summary>
         protected Dispatcher mainDispatcher = Dispatcher.CurrentDispatcher;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        protected OrangeCompiler compiler = new OrangeCompiler();
+
         #endregion
 
 
@@ -65,6 +71,12 @@ namespace OrangeBits
             timer.Elapsed += new ElapsedEventHandler(t_Elapsed);
             timer.AutoReset = false;
             timer.Start();
+
+            compiler.OutputDataReceived += (sender, e) =>
+            {
+                var level = e.OutputType == OutputReceivedEventArgs.DataType.ERROR ? TraceLevel.Error : TraceLevel.Info;
+                this.host.Logger.Log(level, e.Output);
+            };
         }
         #endregion
 
@@ -140,13 +152,14 @@ namespace OrangeBits
             try
             {
                 // do the actual compilation work                
-                CompileResults results = OrangeCompiler.Process(job);
+                CompileResults results = compiler.Process(job);
 
                 // show the notification bar to notify the user it happened                
                 if (!String.IsNullOrEmpty(results.Message))
                 {
-                    host.ShowNotification(results.Message, "Open File", threadedOpenCmd);
+                    host.ShowNotification(results.Message, "Open File", threadedOpenCmd);                    
                 }
+                host.Logger.Log(TraceLevel.Info, string.Format("Success:  Compiled {0} to generate {1}", job.Path, job.OutputPath));
 
                 // refresh the tree so the new file (if created) shows up
                 if (results.IsNewFile)
@@ -162,6 +175,7 @@ namespace OrangeBits
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
+                host.Logger.Log(TraceLevel.Error, string.Format("Error compiling {0}:  {1}", job.Path, ex.ToString()));
                 host.ShowNotification("There was an error processing " + job.Path, "Open File", threadedOpenCmd);
             }
         }

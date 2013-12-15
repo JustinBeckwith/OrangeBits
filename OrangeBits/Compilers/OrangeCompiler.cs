@@ -9,7 +9,7 @@ namespace OrangeBits.Compilers
 	/// <summary>
 	/// Top level compiler for all of the file types we support
 	/// </summary>
-	public class OrangeCompiler
+	internal class OrangeCompiler
 	{
 		#region Variables
 
@@ -20,6 +20,17 @@ namespace OrangeBits.Compilers
 		public static string[] supportedMinifyExtensions = new string[] { ".js", ".css" };
 		public static string[] supportedOptimizeExtensions = new string[] { ".png", ".bmp", ".gif" };
 		public static string[] supportedDataURIExtensions = new string[] { ".png", ".bmp", ".gif", ".jpg", ".jpeg" };
+
+        public event EventHandler<OutputReceivedEventArgs> OutputDataReceived;
+
+        protected virtual void OnOutputDataReceived(object source, OutputReceivedEventArgs e)
+        {
+            EventHandler<OutputReceivedEventArgs> handler = OutputDataReceived;
+            if (handler != null)
+            {
+                handler(source, e);
+            }
+        }
 
 		#endregion
         
@@ -101,7 +112,7 @@ namespace OrangeBits.Compilers
 		/// based on the extension, create the required compiler and compile
 		/// </summary>
 		/// <param name="path"></param>
-		public static CompileResults Process(OrangeJob job)
+		public CompileResults Process(OrangeJob job)
 		{
 			ICompiler compiler = null;
 			
@@ -146,8 +157,10 @@ namespace OrangeBits.Compilers
 					compiler = new LessCompiler();
 					break;                               
 				case ".sass":
+                    compiler = new SassCompiler();
+                    break;
 				case ".scss":
-					compiler = new SassCompiler();
+					compiler = new ScssCompiler();
 					break;
 				case ".coffee":
 					compiler = new CoffeeCompiler();                    
@@ -169,6 +182,10 @@ namespace OrangeBits.Compilers
 			// create the compiled source
 			outPath += outExt;
 			bool exists = File.Exists(outPath);
+
+            compiler.OutputDataReceived += (sender, e) => {
+                this.OnOutputDataReceived(sender, e);
+            };
 
 			var results = compiler.Compile(job.Path, outPath);
 			if (results == null)

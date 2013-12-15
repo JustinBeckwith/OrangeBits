@@ -31,15 +31,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="dotless.ClientOnly, Version=1.3.0.5, Culture=neutral, PublicKeyToken=96b446c9e63eae34, processorArchitecture=MSIL">
+    <Reference Include="EcmaScript.NET, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\DotlessClientOnly.1.3.0.5\lib\dotless.ClientOnly.dll</HintPath>
+      <HintPath>..\packages\EcmaScript.Net.1.0.1.0\lib\net20\EcmaScript.NET.dll</HintPath>
     </Reference>
-    <Reference Include="EcmaScript.NET">
-      <HintPath>..\packages\YUICompressor.NET.2.0.0.0\lib\NET20\EcmaScript.NET.dll</HintPath>
-    </Reference>
-    <Reference Include="Iesi.Collections">
-      <HintPath>..\packages\YUICompressor.NET.2.0.0.0\lib\NET20\Iesi.Collections.dll</HintPath>
+    <Reference Include="Ionic.Zip">
+      <HintPath>..\packages\DotNetZip.1.9.1.8\lib\net20\Ionic.Zip.dll</HintPath>
     </Reference>
     <Reference Include="IronRuby, Version=1.1.3.0, Culture=neutral, PublicKeyToken=7f709c5b713576e1, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -70,17 +67,17 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="SassAndCoffee.Core, Version=2.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="SassAndCoffee.Core, Version=2.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\SassAndCoffee.Core.2.0.2.0\lib\net40-Client\SassAndCoffee.Core.dll</HintPath>
+      <HintPath>..\packages\SassAndCoffee.Core.2.1.1.0\lib\net40-Client\SassAndCoffee.Core.dll</HintPath>
     </Reference>
-    <Reference Include="SassAndCoffee.JavaScript, Version=2.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="SassAndCoffee.JavaScript, Version=2.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\SassAndCoffee.JavaScript.2.0.2.0\lib\net40-Client\SassAndCoffee.JavaScript.dll</HintPath>
+      <HintPath>..\packages\SassAndCoffee.JavaScript.2.1.1.0\lib\net40-Client\SassAndCoffee.JavaScript.dll</HintPath>
     </Reference>
-    <Reference Include="SassAndCoffee.Ruby, Version=2.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="SassAndCoffee.Ruby, Version=2.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\SassAndCoffee.Ruby.2.0.2.0\lib\net40-Client\SassAndCoffee.Ruby.dll</HintPath>
+      <HintPath>..\packages\SassAndCoffee.Ruby.2.1.1.0\lib\net40-Client\SassAndCoffee.Ruby.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -93,20 +90,24 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
-    <Reference Include="Yahoo.Yui.Compressor, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Yahoo.Yui.Compressor, Version=2.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\YUICompressor.NET.2.0.0.0\lib\NET20\Yahoo.Yui.Compressor.dll</HintPath>
+      <HintPath>..\packages\YUICompressor.NET.2.3.0.0\lib\NET20\Yahoo.Yui.Compressor.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CompilerOutputData.cs" />
+    <Compile Include="Compilers\BaseCompiler.cs" />
     <Compile Include="Compilers\CoffeeCompiler.cs" />
     <Compile Include="Compilers\CompilationException.cs" />
     <Compile Include="Compilers\CompileResults.cs" />
+    <Compile Include="Compilers\ScssCompiler.cs" />
     <Compile Include="Compilers\JPGCompressor.cs" />
     <Compile Include="Compilers\JsMinifier.cs" />
     <Compile Include="Compilers\CssMinifier.cs" />
     <Compile Include="Compilers\ICompiler.cs" />
     <Compile Include="Compilers\LessCompiler.cs" />
+    <Compile Include="Compilers\NodeCompilerBase.cs" />
     <Compile Include="Compilers\OrangeCompiler.cs" />
     <Compile Include="Compilers\PNGCompressor.cs" />
     <Compile Include="Compilers\SassCompiler.cs" />
@@ -114,6 +115,7 @@
     <Compile Include="Compilers\TypeScriptCompiler.cs" />
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="OrangeJob.cs" />
+    <Compile Include="OutputReceivedHandler.cs" />
     <Compile Include="PrefUtility.cs" />
     <Compile Include="UI\OptionsUI.xaml.cs">
       <DependentUpon>OptionsUI.xaml</DependentUpon>
@@ -128,23 +130,13 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
-    <None Include="Tools\node_modules\.bin\tsc" />
-    <None Include="Tools\node_modules\.bin\tsc.cmd" />
-    <None Include="Tools\node_modules\typescript\.npmignore" />
-    <None Include="Tools\node_modules\typescript\bin\tsc" />
-    <None Include="Tools\node_modules\typescript\package.json" />
+    <None Include="Tools\node_modules\bin\tsc" />
+    <None Include="Tools\node_modules\bin\tsc.cmd" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Tools\node.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Tools\node_modules\typescript\bin\lib.d.ts" />
-    <Content Include="Tools\node_modules\typescript\bin\tsc.js" />
-    <Content Include="Tools\node_modules\typescript\bin\typescript.js" />
-    <Content Include="Tools\node_modules\typescript\CopyrightNotice.txt" />
-    <Content Include="Tools\node_modules\typescript\LICENSE.txt" />
-    <Content Include="Tools\node_modules\typescript\README.txt" />
-    <Content Include="Tools\node_modules\typescript\ThirdPartyNoticeText.txt" />
     <Content Include="Tools\optipng.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -158,13 +150,13 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /E /Y "$(ProjectDir)\Tools\node_modules" "$(TargetDir)\Tools"
-if not exist "$(USERPROFILE)\AppData\Local\Microsoft\WebMatrix\Extensions\20\$(TargetName)" md "$(USERPROFILE)\AppData\Local\Microsoft\WebMatrix\Extensions\20\$(TargetName)"
-xcopy /E /Y "$(TargetDir)*" "$(USERPROFILE)\AppData\Local\Microsoft\WebMatrix\Extensions\20\$(TargetName)" &gt; NUL
+if not exist "$(USERPROFILE)\AppData\Local\Microsoft\WebMatrix\Extensions\30\$(TargetName)" md "$(USERPROFILE)\AppData\Local\Microsoft\WebMatrix\Extensions\30\$(TargetName)"
+xcopy /E /Y "$(TargetDir)*" "$(USERPROFILE)\AppData\Local\Microsoft\WebMatrix\Extensions\30\$(TargetName)" &gt; NUL
 </PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>if exist "$(TEMP)\WebMatrix.crash.info" del "$(TEMP)\WebMatrix.crash.info"
-if exist "$(USERPROFILE)\AppData\Local\Microsoft\WebMatrix\Extensions\20\DisabledExtensions" del "$(USERPROFILE)\AppData\Local\Microsoft\WebMatrix\Extensions\20\DisabledExtensions"</PreBuildEvent>
+if exist "$(USERPROFILE)\AppData\Local\Microsoft\WebMatrix\Extensions\30\DisabledExtensions" del "$(USERPROFILE)\AppData\Local\Microsoft\WebMatrix\Extensions\30\DisabledExtensions"</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -6,9 +6,9 @@ using OrangeBits;
 
 namespace OrangeBits.Compilers
 {
-	public class PNGCompressor : ICompiler
+	internal class PNGCompressor : BaseCompiler
 	{
-		public CompileResults Compile(string inPath, string outPath)
+		public override CompileResults Compile(string inPath, string outPath)
 		{
 			var success = false;
 			var message = "Optimization Failed.";
